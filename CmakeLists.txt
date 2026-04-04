@@ -1,0 +1,561 @@
+cmake_minimum_required(VERSION 3.20)
+
+project(EDuke32MSVC LANGUAGES C CXX RC)
+
+# ------------------------------------------------------------------------------
+# Options
+# ------------------------------------------------------------------------------
+
+set(WINBITS "64" CACHE STRING "Target bits: 32 or 64")
+set_property(CACHE WINBITS PROPERTY STRINGS 32 64)
+
+set(RENDERTYPE "WIN" CACHE STRING "Renderer type: WIN or SDL")
+set_property(CACHE RENDERTYPE PROPERTY STRINGS WIN SDL)
+
+set(MIXERTYPE "WIN" CACHE STRING "Mixer type: WIN or SDL")
+set_property(CACHE MIXERTYPE PROPERTY STRINGS WIN SDL)
+
+option(CPLUSPLUS "Compile sources as C++ where needed" ON)
+option(USE_OPENGL "Enable OpenGL renderer" ON)
+option(POLYMER "Enable Polymer" ON)
+option(STARTUP_WINDOW "Enable startup window" ON)
+option(USE_LIBPNG "Enable libpng" ON)
+option(USE_LIBVPX "Enable libvpx" ON)
+option(HAVE_VORBIS "Enable vorbis" ON)
+option(HAVE_XMP "Enable xmp" ON)
+option(NOASM "Disable assembly" OFF)
+
+if(WINBITS STREQUAL "64")
+    set(NOASM ON)
+endif()
+
+# ------------------------------------------------------------------------------
+# Paths
+# ------------------------------------------------------------------------------
+
+set(ENGINE_ROOT build)
+set(ENGINE_SRC ${ENGINE_ROOT}/src)
+set(ENGINE_INC ${ENGINE_ROOT}/include)
+
+set(DUKE3D_SRC source)
+set(DUKE3D_INC ${DUKE3D_SRC})
+set(DUKE3D_RSRC rsrc)
+
+set(MACT_ROOT ${DUKE3D_SRC}/jmact)
+set(MACT_INC ${MACT_ROOT})
+
+set(AUDIOLIB_ROOT ${DUKE3D_SRC}/jaudiolib)
+set(AUDIOLIB_INC ${AUDIOLIB_ROOT}/include)
+set(AUDIOLIB_SRC ${AUDIOLIB_ROOT}/src)
+
+set(ENET_ROOT ${DUKE3D_SRC}/enet)
+set(ENET_INC ${ENET_ROOT}/include)
+set(ENET_SRC ${ENET_ROOT}/src)
+
+set(PLATFORM_DIR platform/Windows)
+set(AUDIOINC ${DUKE3D_SRC}/jaudiolib/third-party/common)
+set(AUDIOPLATFORM ${DUKE3D_SRC}/jaudiolib/third-party/Windows)
+
+# ------------------------------------------------------------------------------
+# MSVC / global flags
+# ------------------------------------------------------------------------------
+
+if(MSVC)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+
+    add_compile_options(/nologo /W2 /J)
+
+    if(CPLUSPLUS)
+        add_compile_options(/TP)
+    endif()
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+        add_compile_options(/Od /Zi)
+        add_link_options(/DEBUG)
+        add_compile_definitions(DEBUGGINGAIDS _CRT_SECURE_NO_DEPRECATE)
+    else()
+        add_compile_options(/O2 /GL /MP)
+        add_link_options(/RELEASE /LTCG /OPT:REF)
+        if(WINBITS STREQUAL "32")
+            add_compile_options(/arch:SSE)
+        endif()
+    endif()
+
+    if(NOASM)
+        add_compile_definitions(NOASM)
+    endif()
+endif()
+
+# ------------------------------------------------------------------------------
+# Defines
+# ------------------------------------------------------------------------------
+
+set(COMMON_DEFINES
+    SDL_USEFOLDER
+    SDL_TARGET=2
+    RENDERTYPE${RENDERTYPE}=1
+    MIXERTYPE${MIXERTYPE}=1
+)
+
+if(USE_OPENGL)
+    list(APPEND COMMON_DEFINES USE_OPENGL)
+endif()
+if(POLYMER)
+    list(APPEND COMMON_DEFINES POLYMER)
+endif()
+if(STARTUP_WINDOW)
+    list(APPEND COMMON_DEFINES STARTUP_WINDOW)
+endif()
+if(USE_LIBPNG)
+    list(APPEND COMMON_DEFINES USE_LIBPNG)
+endif()
+if(USE_LIBVPX)
+    list(APPEND COMMON_DEFINES USE_LIBVPX)
+endif()
+if(HAVE_VORBIS)
+    list(APPEND COMMON_DEFINES HAVE_VORBIS)
+endif()
+if(HAVE_XMP)
+    list(APPEND COMMON_DEFINES HAVE_XMP)
+endif()
+
+add_compile_definitions(${COMMON_DEFINES})
+
+# ------------------------------------------------------------------------------
+# Includes
+# ------------------------------------------------------------------------------
+
+include_directories(
+    ${DUKE3D_INC}
+    ${DUKE3D_RSRC}
+    ${ENGINE_INC}
+    ${ENGINE_INC}/msvc
+    ${MACT_INC}
+    ${AUDIOLIB_INC}
+    ${ENET_INC}
+    ${PLATFORM_DIR}/include
+    ${AUDIOINC}/include
+)
+
+# ------------------------------------------------------------------------------
+# Helper
+# ------------------------------------------------------------------------------
+
+function(filter_existing out_var)
+    set(result "")
+    foreach(f IN LISTS ARGN)
+        if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${f}")
+            list(APPEND result "${f}")
+        endif()
+    endforeach()
+    set(${out_var} "${result}" PARENT_SCOPE)
+endfunction()
+
+# ------------------------------------------------------------------------------
+# Source lists from original makefile
+# ------------------------------------------------------------------------------
+
+if(NOASM)
+    set(ENGINE_BASE_SRC build/src/a-c.c)
+else()
+    enable_language(ASM_MASM)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/build/src/a.asm")
+        set(ENGINE_BASE_SRC build/src/a.asm)
+    elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/build/src/a.masm")
+        set(ENGINE_BASE_SRC build/src/a.masm)
+    else()
+        message(FATAL_ERROR "Assembly source build/src/a.asm or build/src/a.masm not found.")
+    endif()
+endif()
+
+filter_existing(ENGINE_SRCS
+    ${ENGINE_BASE_SRC}
+    build/src/baselayer.c
+    build/src/cache1d.c
+    build/src/common.c
+    build/src/compat.c
+    build/src/crc32.c
+    build/src/defs.c
+    build/src/colmatch.c
+    build/src/engine.c
+    build/src/clip.c
+    build/src/2d.c
+    build/src/tiles.c
+    build/src/hash.c
+    build/src/palette.c
+    build/src/glbuild.c
+    build/src/texcache.c
+    build/src/kplib.c
+    build/src/hightile.c
+    build/src/polymost.c
+    build/src/polymer.c
+    build/src/mdsprite.c
+    build/src/voxmodel.c
+    build/src/dxtfilter.c
+    build/src/textfont.c
+    build/src/smalltextfont.c
+    build/src/lz4.c
+    build/src/md4.c
+    build/src/mmulti_null.c
+    build/src/osd.c
+    build/src/pragmas.c
+    build/src/scriptfile.c
+    build/src/mutex.c
+    build/src/winbits.c
+    build/src/xxhash.c
+    build/src/screenshot.c
+    build/src/mhk.c
+)
+
+filter_existing(ENGINE_EDITOR_SRCS
+    build/src/build.c
+    build/src/startwin.editor.c
+    build/src/config.c
+)
+
+filter_existing(ENET_SRCS
+    source/enet/src/callbacks.c
+    source/enet/src/host.c
+    source/enet/src/list.c
+    source/enet/src/packet.c
+    source/enet/src/peer.c
+    source/enet/src/protocol.c
+    source/enet/src/win32.c
+    source/enet/src/compress.c
+)
+
+filter_existing(AUDIOLIB_SRCS
+    source/jaudiolib/src/drivers.c
+    source/jaudiolib/src/fx_man.c
+    source/jaudiolib/src/multivoc.c
+    source/jaudiolib/src/mix.c
+    source/jaudiolib/src/mixst.c
+    source/jaudiolib/src/pitch.c
+    source/jaudiolib/src/formats.c
+    source/jaudiolib/src/vorbis.c
+    source/jaudiolib/src/flac.c
+    source/jaudiolib/src/xa.c
+    source/jaudiolib/src/xmp.c
+    source/jaudiolib/src/driver_nosound.c
+)
+
+filter_existing(MACT_SRCS
+source/jmact/animlib.c
+    source/jmact/file_lib.c
+    source/jmact/control.c
+    source/jmact/keyboard.c
+    source/jmact/mouse.c
+    source/jmact/joystick.c
+    source/jmact/scriplib.c
+)
+
+filter_existing(DUKE3D_GAME_SRCS
+    source/game.c
+    source/actors.c
+    source/anim.c
+    source/animsounds.c
+    source/animvpx.c
+    source/cheats.c
+    source/sbar.c
+    source/screentext.c
+    source/screens.c
+    source/cmdline.c
+    source/common.c
+    source/demo.c
+    source/gamedef.c
+    source/gameexec.c
+    source/gamevars.c
+    source/global.c
+    source/input.c
+    source/menus.c
+    source/namesdyn.c
+    source/net.c
+    source/player.c
+    source/premap.c
+    source/savegame.c
+    source/sector.c
+    source/rev.c
+    source/rts.c
+    source/config.c
+    source/animlib.c
+    source/osdfuncs.c
+    source/osdcmds.c
+    source/grpscan.c
+    source/winbits.c
+    source/startwin.game.c
+    source/sounds.c
+    source/soundsdyn.c
+    ${MACT_SRCS}
+)
+
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    filter_existing(DEBUG_MDUMP source/mdump.c)
+    list(APPEND DUKE3D_GAME_SRCS ${DEBUG_MDUMP})
+endif()
+
+filter_existing(DUKE3D_EDITOR_SRCS
+    source/astub.c
+    source/common.c
+    source/grpscan.c
+    source/m32common.c
+    source/m32def.c
+    source/m32vars.c
+    source/m32exec.c
+    source/sounds_mapster32.c
+    source/rev.c
+)
+
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    filter_existing(DEBUG_EDITOR_MDUMP source/mdump.c)
+    list(APPEND DUKE3D_EDITOR_SRCS ${DEBUG_EDITOR_MDUMP})
+endif()
+
+# ------------------------------------------------------------------------------
+# Renderer / mixer conditional files from original makefile
+# ------------------------------------------------------------------------------
+
+if(RENDERTYPE STREQUAL "WIN")
+    filter_existing(RENDER_EXTRA
+        build/src/winlayer.c
+        build/src/rawinput.c
+    )
+    list(APPEND ENGINE_SRCS ${RENDER_EXTRA})
+elseif(RENDERTYPE STREQUAL "SDL")
+    filter_existing(RENDER_EXTRA
+        build/src/sdlayer.c
+    )
+    list(APPEND ENGINE_SRCS ${RENDER_EXTRA})
+
+    filter_existing(GAME_ICON source/game_icon.c)
+    filter_existing(BUILD_ICON source/build_icon.c)
+    list(APPEND DUKE3D_GAME_SRCS ${GAME_ICON})
+    list(APPEND DUKE3D_EDITOR_SRCS ${BUILD_ICON})
+endif()
+
+if(MIXERTYPE STREQUAL "WIN")
+    filter_existing(MIXER_GAME_EXTRA
+        source/midi.c
+        source/music.c
+        source/mpu401.c
+    )
+    filter_existing(MIXER_AUDIO_EXTRA
+        source/jaudiolib/src/driver_directsound.c
+    )
+    list(APPEND DUKE3D_GAME_SRCS ${MIXER_GAME_EXTRA})
+    list(APPEND AUDIOLIB_SRCS ${MIXER_AUDIO_EXTRA})
+elseif(MIXERTYPE STREQUAL "SDL")
+    filter_existing(MIXER_GAME_EXTRA
+        source/sdlmusic.c
+    )
+    filter_existing(MIXER_AUDIO_EXTRA
+        source/jaudiolib/src/driver_sdl.c
+    )
+    list(APPEND DUKE3D_GAME_SRCS ${MIXER_GAME_EXTRA})
+    list(APPEND AUDIOLIB_SRCS ${MIXER_AUDIO_EXTRA})
+endif()
+
+# ------------------------------------------------------------------------------
+# Resource files
+# ------------------------------------------------------------------------------
+
+filter_existing(GAME_RESOURCES
+    rsrc/gameres.rc
+)
+
+filter_existing(EDITOR_RESOURCES
+    rsrc/buildres.rc
+)
+
+# Ensure RC gets the same include paths the original NMake used:
+# /i$(ENGINE_INC)\ /i$(DUKE3D_SRC)\ /i$(DUKE3D_RSRC)\ /DPOLYMER
+set(RC_INCLUDE_FLAGS
+    /I"${CMAKE_CURRENT_SOURCE_DIR}/${ENGINE_INC}"
+    /I"${CMAKE_CURRENT_SOURCE_DIR}/${DUKE3D_SRC}"
+    /I"${CMAKE_CURRENT_SOURCE_DIR}/${DUKE3D_RSRC}"
+)
+
+set_source_files_properties(${GAME_RESOURCES} PROPERTIES
+    COMPILE_OPTIONS "${RC_INCLUDE_FLAGS}"
+)
+
+set_source_files_properties(${EDITOR_RESOURCES} PROPERTIES
+    COMPILE_OPTIONS "${RC_INCLUDE_FLAGS}"
+)
+
+if(POLYMER)
+    set_source_files_properties(${GAME_RESOURCES} PROPERTIES
+        COMPILE_DEFINITIONS "POLYMER"
+    )
+    set_source_files_properties(${EDITOR_RESOURCES} PROPERTIES
+        COMPILE_DEFINITIONS "POLYMER"
+    )
+endif()
+
+# ------------------------------------------------------------------------------
+# Validate
+# ------------------------------------------------------------------------------
+
+if(NOT ENGINE_SRCS)
+    message(FATAL_ERROR "No engine sources found.")
+endif()
+
+if(NOT ENGINE_EDITOR_SRCS)
+    message(FATAL_ERROR "No engine editor sources found.")
+endif()
+
+if(NOT DUKE3D_GAME_SRCS)
+    message(FATAL_ERROR "No eduke32 game sources found.")
+endif()
+
+if(NOT DUKE3D_EDITOR_SRCS)
+    message(FATAL_ERROR "No mapster32 editor sources found.")
+endif()
+
+# ------------------------------------------------------------------------------
+# Libraries
+# ------------------------------------------------------------------------------
+
+add_library(engine STATIC ${ENGINE_SRCS})
+
+add_library(engine_editor STATIC ${ENGINE_EDITOR_SRCS})
+
+add_library(enet STATIC ${ENET_SRCS})
+target_include_directories(enet PRIVATE
+    ${ENET_INC}
+    ${ENET_SRC}
+)
+
+add_library(audiolib STATIC ${AUDIOLIB_SRCS})
+target_include_directories(audiolib PRIVATE
+    ${AUDIOLIB_INC}
+    ${AUDIOLIB_SRC}
+)
+
+# ------------------------------------------------------------------------------
+# Executables
+# ------------------------------------------------------------------------------
+
+add_executable(eduke32 WIN32
+    ${DUKE3D_GAME_SRCS}
+    ${GAME_RESOURCES}
+)
+
+add_executable(mapster32 WIN32
+    ${DUKE3D_EDITOR_SRCS}
+    ${EDITOR_RESOURCES}
+)
+
+# ------------------------------------------------------------------------------
+# Link directories
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+# Library search paths
+# ------------------------------------------------------------------------------
+
+set(PROJECT_LIB_DIRS
+    ${CMAKE_CURRENT_SOURCE_DIR}/${PLATFORM_DIR}/lib/${WINBITS}
+    ${CMAKE_CURRENT_SOURCE_DIR}/${AUDIOPLATFORM}/lib/${WINBITS}
+    ${CMAKE_CURRENT_SOURCE_DIR}/${DUKE3D_SRC}
+    ${CMAKE_CURRENT_SOURCE_DIR}/${DUKE3D_SRC}/lib
+    ${CMAKE_CURRENT_SOURCE_DIR}/${DUKE3D_SRC}/libs
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs
+)
+
+target_link_directories(engine PRIVATE ${PROJECT_LIB_DIRS})
+target_link_directories(engine_editor PRIVATE ${PROJECT_LIB_DIRS})
+target_link_directories(enet PRIVATE ${PROJECT_LIB_DIRS})
+target_link_directories(audiolib PRIVATE ${PROJECT_LIB_DIRS})
+
+target_link_directories(eduke32 PRIVATE ${PROJECT_LIB_DIRS})
+target_link_directories(mapster32 PRIVATE ${PROJECT_LIB_DIRS})
+
+# ------------------------------------------------------------------------------
+# Libraries from original makefile
+# ------------------------------------------------------------------------------
+
+set(COMMON_WIN_LIBS
+    user32
+    gdi32
+    shell32
+    winmm
+    ws2_32
+    comctl32
+    shlwapi
+    oleaut32
+    ole32
+    imm32
+    version
+    dxguid
+    dsound
+    advapi32
+)
+
+set(THIRDPARTY_LIBS
+    libogg
+    libvorbis
+    libvorbisfile
+    libxmp-lite
+    libvpx
+    libpng_mini
+    libz_mini
+    libcompat-to-msvc
+)
+
+if(RENDERTYPE STREQUAL "SDL")
+    list(APPEND THIRDPARTY_LIBS
+        libSDL2main.a
+        libSDL2.a
+    )
+endif()
+
+target_link_libraries(eduke32 PRIVATE
+    engine
+    audiolib
+    enet
+    ${COMMON_WIN_LIBS}
+    ${THIRDPARTY_LIBS}
+)
+
+target_link_libraries(mapster32 PRIVATE
+    engine
+    engine_editor
+    audiolib
+    ${COMMON_WIN_LIBS}
+    ${THIRDPARTY_LIBS}
+)
+
+if(MSVC)
+    target_link_options(eduke32 PRIVATE
+        /NODEFAULTLIB:glu32.lib
+        /NODEFAULTLIB:msvcrt.lib
+        /NODEFAULTLIB:msvcrtd.lib
+        /NODEFAULTLIB:libcmt.lib
+        /NODEFAULTLIB:libcmtd.lib
+    )
+
+    target_link_options(mapster32 PRIVATE
+        /NODEFAULTLIB:glu32.lib
+        /NODEFAULTLIB:msvcrt.lib
+        /NODEFAULTLIB:msvcrtd.lib
+        /NODEFAULTLIB:libcmt.lib
+        /NODEFAULTLIB:libcmtd.lib
+    )
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+        target_link_libraries(eduke32 PRIVATE msvcrtd)
+        target_link_libraries(mapster32 PRIVATE msvcrtd)
+    else()
+        target_link_libraries(eduke32 PRIVATE msvcrt)
+        target_link_libraries(mapster32 PRIVATE msvcrt)
+    endif()
+endif()
+
+set_target_properties(eduke32 PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}"
+)
+
+set_target_properties(mapster32 PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}"
+)

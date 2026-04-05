@@ -374,14 +374,14 @@ static inline void polymer_invalidatesprite(int32_t i)
         prsprites[i]->hash = 0xDEADBEEF;
 }
 
-extern GLuint       prartmaps[MAXTILES];
+extern GLuint       prartmaps[MAXTILES][MAXBASEPALS][64];
 static inline void polymer_invalidateartmap(int32_t tilenum)
 {
-    if (prartmaps[tilenum])
-    {
-        bglDeleteTextures(1, &prartmaps[tilenum]);
-        prartmaps[tilenum] = 0;
-    }
+ //   if (prartmaps[tilenum])
+ //   {
+ //       glDeleteTextures(1, &prartmaps[tilenum]);
+ //       prartmaps[tilenum] = 0;
+ //   }
 }
 
 // Compare with eligible_for_tileshades()
@@ -437,7 +437,6 @@ static void         polymer_loadmodelvbos(md3model_t* m);
 static void         polymer_getscratchmaterial(_prmaterial* material);
 static _prbucket*   polymer_getbuildmaterial(_prmaterial* material, int16_t tilenum, char pal, int8_t shade, int8_t vis, int32_t cmeth);
 static int32_t      polymer_bindmaterial(const _prmaterial *material, int16_t* lights, int lightcount);
-static void         polymer_unbindmaterial(int32_t programbits);
 static void         polymer_compileprogram(int32_t programbits);
 // LIGHTS
 static void         polymer_removelight(int16_t lighti);
@@ -458,7 +457,7 @@ void PR_CALLBACK    polymer_debugoutputcallback(GLenum source,GLenum type,GLuint
 
 #define INDICE(n) ((p->indices) ? (p->indices[(i+n)%p->indicescount]) : (((i+n)%p->vertcount)))
 
-#define SWITCH_CULL_DIRECTION { culledface = (culledface == GL_FRONT) ? GL_BACK : GL_FRONT; bglCullFace(culledface); }
+#define SWITCH_CULL_DIRECTION { culledface = (culledface == GL_FRONT) ? GL_BACK : GL_FRONT; glCullFace(culledface); }
 
 static inline GLfloat dot2f(GLfloat *v1, GLfloat *v2)
 {

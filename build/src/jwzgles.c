@@ -61,7 +61,7 @@
 # include "config.h"
 #endif /* HAVE_CONFIG_H */
 
-#ifdef HAVE_JWZGLES	/* whole file */
+#if 1//def HAVE_JWZGLES	/* whole file */
 
 #include <stdio.h>
 #include <string.h>

@@ -172,7 +172,7 @@ static int32_t screencapture_png(const char *filename, char inverseit, const cha
     else
     {
         buf = (png_bytep) png_malloc(png_ptr, xdim*ydim*3);
-        bglReadPixels(0, 0, xdim, ydim, GL_RGB, GL_UNSIGNED_BYTE, buf);
+        glReadPixels(0, 0, xdim, ydim, GL_RGB, GL_UNSIGNED_BYTE, buf);
     }
 # endif
     enddrawing(); //}}}
@@ -281,7 +281,7 @@ static int32_t screencapture_tga(const char *filename, char inverseit)
         // 24bit
         inversebuf = (char *) Xmalloc(xdim*ydim*3);
 
-        bglReadPixels(0, 0, xdim, ydim, GL_RGB, GL_UNSIGNED_BYTE, inversebuf);
+        glReadPixels(0, 0, xdim, ydim, GL_RGB, GL_UNSIGNED_BYTE, inversebuf);
         j = xdim*ydim*3;
         for (i=0; i<j; i+=3)
         {

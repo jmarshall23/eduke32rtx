@@ -15,7 +15,7 @@ GLenum BuildGLError;
 void BuildGLErrorCheck(void)
 {
     volatile GLenum err;
-    while ((err = bglGetError()) != GL_NO_ERROR)
+    while ((err = glGetError()) != GL_NO_ERROR)
     {
         BuildGLError = err; // set a watchpoint/breakpoint here
     }
@@ -24,283 +24,283 @@ void BuildGLErrorCheck(void)
 #if defined DYNAMIC_GL
 
 #ifdef _WIN32
-bwglCreateContextProcPtr bwglCreateContext;
-bwglDeleteContextProcPtr bwglDeleteContext;
-bwglGetProcAddressProcPtr bwglGetProcAddress;
-bwglMakeCurrentProcPtr bwglMakeCurrent;
+wglCreateContextProcPtr wglCreateContext;
+wglDeleteContextProcPtr wglDeleteContext;
+wglGetProcAddressProcPtr wglGetProcAddress;
+wglMakeCurrentProcPtr wglMakeCurrent;
 
-bwglSwapBuffersProcPtr bwglSwapBuffers;
-bwglChoosePixelFormatProcPtr bwglChoosePixelFormat;
-bwglDescribePixelFormatProcPtr bwglDescribePixelFormat;
-bwglGetPixelFormatProcPtr bwglGetPixelFormat;
-bwglSetPixelFormatProcPtr bwglSetPixelFormat;
+wglSwapBuffersProcPtr wglSwapBuffers;
+wglChoosePixelFormatProcPtr wglChoosePixelFormat;
+wglDescribePixelFormatProcPtr wglDescribePixelFormat;
+wglGetPixelFormatProcPtr wglGetPixelFormat;
+wglSetPixelFormatProcPtr wglSetPixelFormat;
 #endif
 
-bglClearColorProcPtr bglClearColor;
-bglClearProcPtr bglClear;
-bglColorMaskProcPtr bglColorMask;
-bglAlphaFuncProcPtr bglAlphaFunc;
-bglBlendFuncProcPtr bglBlendFunc;
-bglCullFaceProcPtr bglCullFace;
-bglFrontFaceProcPtr bglFrontFace;
-bglPolygonOffsetProcPtr bglPolygonOffset;
-bglPolygonModeProcPtr bglPolygonMode;
-bglEnableProcPtr bglEnable;
-bglDisableProcPtr bglDisable;
-bglGetDoublevProcPtr bglGetDoublev;
-bglGetFloatvProcPtr bglGetFloatv;
-bglGetIntegervProcPtr bglGetIntegerv;
-bglPushAttribProcPtr bglPushAttrib;
-bglPopAttribProcPtr bglPopAttrib;
-bglGetErrorProcPtr bglGetError;
-bglGetStringProcPtr bglGetString;
-bglHintProcPtr bglHint;
-bglDrawBufferProcPtr bglDrawBuffer;
-bglReadBufferProcPtr bglReadBuffer;
-bglScissorProcPtr bglScissor;
-bglClipPlaneProcPtr bglClipPlane;
+glClearColorProcPtr glClearColor;
+glClearProcPtr glClear;
+glColorMaskProcPtr glColorMask;
+glAlphaFuncProcPtr glAlphaFunc;
+glBlendFuncProcPtr glBlendFunc;
+glCullFaceProcPtr glCullFace;
+glFrontFaceProcPtr glFrontFace;
+glPolygonOffsetProcPtr glPolygonOffset;
+glPolygonModeProcPtr glPolygonMode;
+glEnableProcPtr glEnable;
+glDisableProcPtr glDisable;
+glGetDoublevProcPtr glGetDoublev;
+glGetFloatvProcPtr glGetFloatv;
+glGetIntegervProcPtr glGetIntegerv;
+glPushAttribProcPtr glPushAttrib;
+glPopAttribProcPtr glPopAttrib;
+glGetErrorProcPtr glGetError;
+glGetStringProcPtr glGetString;
+glHintProcPtr glHint;
+glDrawBufferProcPtr glDrawBuffer;
+glReadBufferProcPtr glReadBuffer;
+glScissorProcPtr glScissor;
+glClipPlaneProcPtr glClipPlane;
 
 // Depth
-bglDepthFuncProcPtr bglDepthFunc;
-bglDepthMaskProcPtr bglDepthMask;
-//bglDepthRangeProcPtr bglDepthRange;
+glDepthFuncProcPtr glDepthFunc;
+glDepthMaskProcPtr glDepthMask;
+//glDepthRangeProcPtr glDepthRange;
 
 // Matrix
-bglMatrixModeProcPtr bglMatrixMode;
-bglOrthoProcPtr bglOrtho;
-bglFrustumProcPtr bglFrustum;
-bglViewportProcPtr bglViewport;
-bglPushMatrixProcPtr bglPushMatrix;
-bglPopMatrixProcPtr bglPopMatrix;
-bglLoadIdentityProcPtr bglLoadIdentity;
-bglLoadMatrixfProcPtr bglLoadMatrixf;
-bglLoadMatrixdProcPtr bglLoadMatrixd;
-bglMultMatrixfProcPtr bglMultMatrixf;
-bglMultMatrixdProcPtr bglMultMatrixd;
-bglRotatefProcPtr bglRotatef;
-bglScalefProcPtr bglScalef;
-bglTranslatefProcPtr bglTranslatef;
+glMatrixModeProcPtr glMatrixMode;
+glOrthoProcPtr glOrtho;
+glFrustumProcPtr glFrustum;
+glViewportProcPtr glViewport;
+glPushMatrixProcPtr glPushMatrix;
+glPopMatrixProcPtr glPopMatrix;
+glLoadIdentityProcPtr glLoadIdentity;
+glLoadMatrixfProcPtr glLoadMatrixf;
+glLoadMatrixdProcPtr glLoadMatrixd;
+glMultMatrixfProcPtr glMultMatrixf;
+glMultMatrixdProcPtr glMultMatrixd;
+glRotatefProcPtr glRotatef;
+glScalefProcPtr glScalef;
+glTranslatefProcPtr glTranslatef;
 
 // Drawing
-bglBeginProcPtr bglBegin;
-bglEndProcPtr bglEnd;
-bglVertex2fProcPtr bglVertex2f;
-bglVertex2iProcPtr bglVertex2i;
-bglVertex3fProcPtr bglVertex3f;
-bglVertex3dProcPtr bglVertex3d;
-bglVertex3fvProcPtr bglVertex3fv;
-bglVertex3dvProcPtr bglVertex3dv;
-bglRectiProcPtr bglRecti;
-bglColor3fProcPtr bglColor3f;
-bglColor4fProcPtr bglColor4f;
-bglColor4ubProcPtr bglColor4ub;
-bglTexCoord2dProcPtr bglTexCoord2d;
-bglTexCoord2fProcPtr bglTexCoord2f;
-bglTexCoord2iProcPtr bglTexCoord2i;
-bglNormal3fProcPtr bglNormal3f;
+glBeginProcPtr glBegin;
+glEndProcPtr glEnd;
+glVertex2fProcPtr glVertex2f;
+glVertex2iProcPtr glVertex2i;
+glVertex3fProcPtr glVertex3f;
+glVertex3dProcPtr glVertex3d;
+glVertex3fvProcPtr glVertex3fv;
+glVertex3dvProcPtr glVertex3dv;
+glRectiProcPtr glRecti;
+glColor3fProcPtr glColor3f;
+glColor4fProcPtr glColor4f;
+glColor4ubProcPtr glColor4ub;
+glTexCoord2dProcPtr glTexCoord2d;
+glTexCoord2fProcPtr glTexCoord2f;
+glTexCoord2iProcPtr glTexCoord2i;
+glNormal3fProcPtr glNormal3f;
 
 // Lighting
-bglShadeModelProcPtr bglShadeModel;
-bglLightfvProcPtr bglLightfv;
+glShadeModelProcPtr glShadeModel;
+glLightfvProcPtr glLightfv;
 
 // Raster funcs
-bglReadPixelsProcPtr bglReadPixels;
-bglRasterPos4iProcPtr bglRasterPos4i;
-bglDrawPixelsProcPtr bglDrawPixels;
-bglPixelStoreiProcPtr bglPixelStorei;
+glReadPixelsProcPtr glReadPixels;
+glRasterPos4iProcPtr glRasterPos4i;
+glDrawPixelsProcPtr glDrawPixels;
+glPixelStoreiProcPtr glPixelStorei;
 
 // Texture mapping
-bglTexEnvfProcPtr bglTexEnvf;
-bglGenTexturesProcPtr bglGenTextures;
-bglDeleteTexturesProcPtr bglDeleteTextures;
-bglBindTextureProcPtr bglBindTexture;
-bglTexImage2DProcPtr bglTexImage2D;
-bglCopyTexImage2DProcPtr bglCopyTexImage2D;
-bglCopyTexSubImage2DProcPtr bglCopyTexSubImage2D;
-bglTexSubImage2DProcPtr bglTexSubImage2D;
-bglTexParameterfProcPtr bglTexParameterf;
-bglTexParameteriProcPtr bglTexParameteri;
-bglGetTexParameterivProcPtr bglGetTexParameteriv;
-bglGetTexLevelParameterivProcPtr bglGetTexLevelParameteriv;
-bglTexGenfvProcPtr bglTexGenfv;
+glTexEnvfProcPtr glTexEnvf;
+glGenTexturesProcPtr glGenTextures;
+glDeleteTexturesProcPtr glDeleteTextures;
+glBindTextureProcPtr glBindTexture;
+glTexImage2DProcPtr glTexImage2D;
+glCopyTexImage2DProcPtr glCopyTexImage2D;
+glCopyTexSubImage2DProcPtr glCopyTexSubImage2D;
+glTexSubImage2DProcPtr glTexSubImage2D;
+glTexParameterfProcPtr glTexParameterf;
+glTexParameteriProcPtr glTexParameteri;
+glGetTexParameterivProcPtr glGetTexParameteriv;
+glGetTexLevelParameterivProcPtr glGetTexLevelParameteriv;
+glTexGenfvProcPtr glTexGenfv;
 
 // Fog
-bglFogfProcPtr bglFogf;
-bglFogiProcPtr bglFogi;
-bglFogfvProcPtr bglFogfv;
+glFogfProcPtr glFogf;
+glFogiProcPtr glFogi;
+glFogfvProcPtr glFogfv;
 
 // Display Lists
-bglNewListProcPtr bglNewList;
-bglEndListProcPtr bglEndList;
-bglCallListProcPtr bglCallList;
-bglDeleteListsProcPtr bglDeleteLists;
+glNewListProcPtr glNewList;
+glEndListProcPtr glEndList;
+glCallListProcPtr glCallList;
+glDeleteListsProcPtr glDeleteLists;
 
 // Vertex Arrays
-bglEnableClientStateProcPtr bglEnableClientState;
-bglDisableClientStateProcPtr bglDisableClientState;
-bglVertexPointerProcPtr bglVertexPointer;
-bglNormalPointerProcPtr bglNormalPointer;
-bglTexCoordPointerProcPtr bglTexCoordPointer;
-bglDrawArraysProcPtr bglDrawArrays;
-bglDrawElementsProcPtr bglDrawElements;
+glEnableClientStateProcPtr glEnableClientState;
+glDisableClientStateProcPtr glDisableClientState;
+glVertexPointerProcPtr glVertexPointer;
+glNormalPointerProcPtr glNormalPointer;
+glTexCoordPointerProcPtr glTexCoordPointer;
+glDrawArraysProcPtr glDrawArrays;
+glDrawElementsProcPtr glDrawElements;
 
 // Stencil Buffer
-bglClearStencilProcPtr bglClearStencil;
-bglStencilOpProcPtr bglStencilOp;
-bglStencilFuncProcPtr bglStencilFunc;
+glClearStencilProcPtr glClearStencil;
+glStencilOpProcPtr glStencilOp;
+glStencilFuncProcPtr glStencilFunc;
 
 #endif
 
 #if defined DYNAMIC_GLEXT
 
-bglBlendEquationProcPtr bglBlendEquation;
+glBlendEquationProcPtr glBlendEquation;
 
-bglTexImage3DProcPtr bglTexImage3D;
-bglCompressedTexImage2DARBProcPtr bglCompressedTexImage2DARB;
-bglGetCompressedTexImageARBProcPtr bglGetCompressedTexImageARB;
+glTexImage3DProcPtr glTexImage3D;
+glCompressedTexImage2DARBProcPtr glCompressedTexImage2DARB;
+glGetCompressedTexImageARBProcPtr glGetCompressedTexImageARB;
 
 // GPU Programs
-bglGenProgramsARBProcPtr bglGenProgramsARB;
-bglBindProgramARBProcPtr bglBindProgramARB;
-bglProgramStringARBProcPtr bglProgramStringARB;
-bglDeleteProgramsARBProcPtr bglDeleteProgramsARB;
+glGenProgramsARBProcPtr glGenProgramsARB;
+glBindProgramARBProcPtr glBindProgramARB;
+glProgramStringARBProcPtr glProgramStringARB;
+glDeleteProgramsARBProcPtr glDeleteProgramsARB;
 
 // Multitexturing
-bglActiveTextureARBProcPtr bglActiveTextureARB;
-bglClientActiveTextureARBProcPtr bglClientActiveTextureARB;
-bglMultiTexCoord2dARBProcPtr bglMultiTexCoord2dARB;
-bglMultiTexCoord2fARBProcPtr bglMultiTexCoord2fARB;
+glActiveTextureARBProcPtr glActiveTextureARB;
+glClientActiveTextureARBProcPtr glClientActiveTextureARB;
+glMultiTexCoord2dARBProcPtr glMultiTexCoord2dARB;
+glMultiTexCoord2fARBProcPtr glMultiTexCoord2fARB;
 
 // Frame Buffer Objects
-bglGenFramebuffersEXTProcPtr bglGenFramebuffersEXT;
-bglBindFramebufferEXTProcPtr bglBindFramebufferEXT;
-bglFramebufferTexture2DEXTProcPtr bglFramebufferTexture2DEXT;
-bglCheckFramebufferStatusEXTProcPtr bglCheckFramebufferStatusEXT;
-bglDeleteFramebuffersEXTProcPtr bglDeleteFramebuffersEXT;
+glGenFramebuffersEXTProcPtr glGenFramebuffersEXT;
+glBindFramebufferEXTProcPtr glBindFramebufferEXT;
+glFramebufferTexture2DEXTProcPtr glFramebufferTexture2DEXT;
+glCheckFramebufferStatusEXTProcPtr glCheckFramebufferStatusEXT;
+glDeleteFramebuffersEXTProcPtr glDeleteFramebuffersEXT;
 
 // Vertex Buffer Objects
-bglGenBuffersARBProcPtr bglGenBuffersARB;
-bglBindBufferARBProcPtr bglBindBufferARB;
-bglDeleteBuffersARBProcPtr bglDeleteBuffersARB;
-bglBufferDataARBProcPtr bglBufferDataARB;
-bglBufferSubDataARBProcPtr bglBufferSubDataARB;
-bglMapBufferARBProcPtr bglMapBufferARB;
-bglUnmapBufferARBProcPtr bglUnmapBufferARB;
+glGenBuffersARBProcPtr glGenBuffersARB;
+glBindBufferARBProcPtr glBindBufferARB;
+glDeleteBuffersARBProcPtr glDeleteBuffersARB;
+glBufferDataARBProcPtr glBufferDataARB;
+glBufferSubDataARBProcPtr glBufferSubDataARB;
+glMapBufferARBProcPtr glMapBufferARB;
+glUnmapBufferARBProcPtr glUnmapBufferARB;
 
 // ARB_buffer_storage
-bglBufferStorageProcPtr bglBufferStorage;
+glBufferStorageProcPtr glBufferStorage;
 
 // ARB_map_buffer_range
-bglMapBufferRangeProcPtr bglMapBufferRange;
+glMapBufferRangeProcPtr glMapBufferRange;
 
 // Occlusion queries
-bglGenQueriesARBProcPtr bglGenQueriesARB;
-bglDeleteQueriesARBProcPtr bglDeleteQueriesARB;
-bglIsQueryARBProcPtr bglIsQueryARB;
-bglBeginQueryARBProcPtr bglBeginQueryARB;
-bglEndQueryARBProcPtr bglEndQueryARB;
-bglGetQueryivARBProcPtr bglGetQueryivARB;
-bglGetQueryObjectivARBProcPtr bglGetQueryObjectivARB;
-bglGetQueryObjectuivARBProcPtr bglGetQueryObjectuivARB;
+glGenQueriesARBProcPtr glGenQueriesARB;
+glDeleteQueriesARBProcPtr glDeleteQueriesARB;
+glIsQueryARBProcPtr glIsQueryARB;
+glBeginQueryARBProcPtr glBeginQueryARB;
+glEndQueryARBProcPtr glEndQueryARB;
+glGetQueryivARBProcPtr glGetQueryivARB;
+glGetQueryObjectivARBProcPtr glGetQueryObjectivARB;
+glGetQueryObjectuivARBProcPtr glGetQueryObjectuivARB;
 
 // Shader Objects
-bglDeleteObjectARBProcPtr bglDeleteObjectARB;
-bglGetHandleARBProcPtr bglGetHandleARB;
-bglDetachObjectARBProcPtr bglDetachObjectARB;
-bglCreateShaderObjectARBProcPtr bglCreateShaderObjectARB;
-bglShaderSourceARBProcPtr bglShaderSourceARB;
-bglCompileShaderARBProcPtr bglCompileShaderARB;
-bglCreateProgramObjectARBProcPtr bglCreateProgramObjectARB;
-bglAttachObjectARBProcPtr bglAttachObjectARB;
-bglLinkProgramARBProcPtr bglLinkProgramARB;
-bglUseProgramObjectARBProcPtr bglUseProgramObjectARB;
-bglValidateProgramARBProcPtr bglValidateProgramARB;
-bglUniform1fARBProcPtr bglUniform1fARB;
-bglUniform2fARBProcPtr bglUniform2fARB;
-bglUniform3fARBProcPtr bglUniform3fARB;
-bglUniform4fARBProcPtr bglUniform4fARB;
-bglUniform1iARBProcPtr bglUniform1iARB;
-bglUniform2iARBProcPtr bglUniform2iARB;
-bglUniform3iARBProcPtr bglUniform3iARB;
-bglUniform4iARBProcPtr bglUniform4iARB;
-bglUniform1fvARBProcPtr bglUniform1fvARB;
-bglUniform2fvARBProcPtr bglUniform2fvARB;
-bglUniform3fvARBProcPtr bglUniform3fvARB;
-bglUniform4fvARBProcPtr bglUniform4fvARB;
-bglUniform1ivARBProcPtr bglUniform1ivARB;
-bglUniform2ivARBProcPtr bglUniform2ivARB;
-bglUniform3ivARBProcPtr bglUniform3ivARB;
-bglUniform4ivARBProcPtr bglUniform4ivARB;
-bglUniformMatrix2fvARBProcPtr bglUniformMatrix2fvARB;
-bglUniformMatrix3fvARBProcPtr bglUniformMatrix3fvARB;
-bglUniformMatrix4fvARBProcPtr bglUniformMatrix4fvARB;
-bglGetObjectParameterfvARBProcPtr bglGetObjectParameterfvARB;
-bglGetObjectParameterivARBProcPtr bglGetObjectParameterivARB;
-bglGetInfoLogARBProcPtr bglGetInfoLogARB;
-bglGetAttachedObjectsARBProcPtr bglGetAttachedObjectsARB;
-bglGetUniformLocationARBProcPtr bglGetUniformLocationARB;
-bglGetActiveUniformARBProcPtr bglGetActiveUniformARB;
-bglGetUniformfvARBProcPtr bglGetUniformfvARB;
-bglGetUniformivARBProcPtr bglGetUniformivARB;
-bglGetShaderSourceARBProcPtr bglGetShaderSourceARB;
+glDeleteObjectARBProcPtr glDeleteObjectARB;
+glGetHandleARBProcPtr glGetHandleARB;
+glDetachObjectARBProcPtr glDetachObjectARB;
+glCreateShaderObjectARBProcPtr glCreateShaderObjectARB;
+glShaderSourceARBProcPtr glShaderSourceARB;
+glCompileShaderARBProcPtr glCompileShaderARB;
+glCreateProgramObjectARBProcPtr glCreateProgramObjectARB;
+glAttachObjectARBProcPtr glAttachObjectARB;
+glLinkProgramARBProcPtr glLinkProgramARB;
+glUseProgramObjectARBProcPtr glUseProgramObjectARB;
+glValidateProgramARBProcPtr glValidateProgramARB;
+glUniform1fARBProcPtr glUniform1fARB;
+glUniform2fARBProcPtr glUniform2fARB;
+glUniform3fARBProcPtr glUniform3fARB;
+glUniform4fARBProcPtr glUniform4fARB;
+glUniform1iARBProcPtr glUniform1iARB;
+glUniform2iARBProcPtr glUniform2iARB;
+glUniform3iARBProcPtr glUniform3iARB;
+glUniform4iARBProcPtr glUniform4iARB;
+glUniform1fvARBProcPtr glUniform1fvARB;
+glUniform2fvARBProcPtr glUniform2fvARB;
+glUniform3fvARBProcPtr glUniform3fvARB;
+glUniform4fvARBProcPtr glUniform4fvARB;
+glUniform1ivARBProcPtr glUniform1ivARB;
+glUniform2ivARBProcPtr glUniform2ivARB;
+glUniform3ivARBProcPtr glUniform3ivARB;
+glUniform4ivARBProcPtr glUniform4ivARB;
+glUniformMatrix2fvARBProcPtr glUniformMatrix2fvARB;
+glUniformMatrix3fvARBProcPtr glUniformMatrix3fvARB;
+glUniformMatrix4fvARBProcPtr glUniformMatrix4fvARB;
+glGetObjectParameterfvARBProcPtr glGetObjectParameterfvARB;
+glGetObjectParameterivARBProcPtr glGetObjectParameterivARB;
+glGetInfoLogARBProcPtr glGetInfoLogARB;
+glGetAttachedObjectsARBProcPtr glGetAttachedObjectsARB;
+glGetUniformLocationARBProcPtr glGetUniformLocationARB;
+glGetActiveUniformARBProcPtr glGetActiveUniformARB;
+glGetUniformfvARBProcPtr glGetUniformfvARB;
+glGetUniformivARBProcPtr glGetUniformivARB;
+glGetShaderSourceARBProcPtr glGetShaderSourceARB;
 
 // Vertex Shaders
-bglVertexAttrib1dARBProcPtr bglVertexAttrib1dARB;
-bglVertexAttrib1dvARBProcPtr bglVertexAttrib1dvARB;
-bglVertexAttrib1fARBProcPtr bglVertexAttrib1fARB;
-bglVertexAttrib1fvARBProcPtr bglVertexAttrib1fvARB;
-bglVertexAttrib1sARBProcPtr bglVertexAttrib1sARB;
-bglVertexAttrib1svARBProcPtr bglVertexAttrib1svARB;
-bglVertexAttrib2dARBProcPtr bglVertexAttrib2dARB;
-bglVertexAttrib2dvARBProcPtr bglVertexAttrib2dvARB;
-bglVertexAttrib2fARBProcPtr bglVertexAttrib2fARB;
-bglVertexAttrib2fvARBProcPtr bglVertexAttrib2fvARB;
-bglVertexAttrib2sARBProcPtr bglVertexAttrib2sARB;
-bglVertexAttrib2svARBProcPtr bglVertexAttrib2svARB;
-bglVertexAttrib3dARBProcPtr bglVertexAttrib3dARB;
-bglVertexAttrib3dvARBProcPtr bglVertexAttrib3dvARB;
-bglVertexAttrib3fARBProcPtr bglVertexAttrib3fARB;
-bglVertexAttrib3fvARBProcPtr bglVertexAttrib3fvARB;
-bglVertexAttrib3sARBProcPtr bglVertexAttrib3sARB;
-bglVertexAttrib3svARBProcPtr bglVertexAttrib3svARB;
-bglVertexAttrib4NbvARBProcPtr bglVertexAttrib4NbvARB;
-bglVertexAttrib4NivARBProcPtr bglVertexAttrib4NivARB;
-bglVertexAttrib4NsvARBProcPtr bglVertexAttrib4NsvARB;
-bglVertexAttrib4NubARBProcPtr bglVertexAttrib4NubARB;
-bglVertexAttrib4NubvARBProcPtr bglVertexAttrib4NubvARB;
-bglVertexAttrib4NuivARBProcPtr bglVertexAttrib4NuivARB;
-bglVertexAttrib4NusvARBProcPtr bglVertexAttrib4NusvARB;
-bglVertexAttrib4bvARBProcPtr bglVertexAttrib4bvARB;
-bglVertexAttrib4dARBProcPtr bglVertexAttrib4dARB;
-bglVertexAttrib4dvARBProcPtr bglVertexAttrib4dvARB;
-bglVertexAttrib4fARBProcPtr bglVertexAttrib4fARB;
-bglVertexAttrib4fvARBProcPtr bglVertexAttrib4fvARB;
-bglVertexAttrib4ivARBProcPtr bglVertexAttrib4ivARB;
-bglVertexAttrib4sARBProcPtr bglVertexAttrib4sARB;
-bglVertexAttrib4svARBProcPtr bglVertexAttrib4svARB;
-bglVertexAttrib4ubvARBProcPtr bglVertexAttrib4ubvARB;
-bglVertexAttrib4uivARBProcPtr bglVertexAttrib4uivARB;
-bglVertexAttrib4usvARBProcPtr bglVertexAttrib4usvARB;
-bglVertexAttribPointerARBProcPtr bglVertexAttribPointerARB;
-bglEnableVertexAttribArrayARBProcPtr bglEnableVertexAttribArrayARB;
-bglDisableVertexAttribArrayARBProcPtr bglDisableVertexAttribArrayARB;
-bglGetVertexAttribdvARBProcPtr bglGetVertexAttribdvARB;
-bglGetVertexAttribfvARBProcPtr bglGetVertexAttribfvARB;
-bglGetVertexAttribivARBProcPtr bglGetVertexAttribivARB;
-bglGetVertexAttribPointervARBProcPtr bglGetVertexAttribPointervARB;
-bglBindAttribLocationARBProcPtr bglBindAttribLocationARB;
-bglGetActiveAttribARBProcPtr bglGetActiveAttribARB;
-bglGetAttribLocationARBProcPtr bglGetAttribLocationARB;
+glVertexAttrib1dARBProcPtr glVertexAttrib1dARB;
+glVertexAttrib1dvARBProcPtr glVertexAttrib1dvARB;
+glVertexAttrib1fARBProcPtr glVertexAttrib1fARB;
+glVertexAttrib1fvARBProcPtr glVertexAttrib1fvARB;
+glVertexAttrib1sARBProcPtr glVertexAttrib1sARB;
+glVertexAttrib1svARBProcPtr glVertexAttrib1svARB;
+glVertexAttrib2dARBProcPtr glVertexAttrib2dARB;
+glVertexAttrib2dvARBProcPtr glVertexAttrib2dvARB;
+glVertexAttrib2fARBProcPtr glVertexAttrib2fARB;
+glVertexAttrib2fvARBProcPtr glVertexAttrib2fvARB;
+glVertexAttrib2sARBProcPtr glVertexAttrib2sARB;
+glVertexAttrib2svARBProcPtr glVertexAttrib2svARB;
+glVertexAttrib3dARBProcPtr glVertexAttrib3dARB;
+glVertexAttrib3dvARBProcPtr glVertexAttrib3dvARB;
+glVertexAttrib3fARBProcPtr glVertexAttrib3fARB;
+glVertexAttrib3fvARBProcPtr glVertexAttrib3fvARB;
+glVertexAttrib3sARBProcPtr glVertexAttrib3sARB;
+glVertexAttrib3svARBProcPtr glVertexAttrib3svARB;
+glVertexAttrib4NbvARBProcPtr glVertexAttrib4NbvARB;
+glVertexAttrib4NivARBProcPtr glVertexAttrib4NivARB;
+glVertexAttrib4NsvARBProcPtr glVertexAttrib4NsvARB;
+glVertexAttrib4NubARBProcPtr glVertexAttrib4NubARB;
+glVertexAttrib4NubvARBProcPtr glVertexAttrib4NubvARB;
+glVertexAttrib4NuivARBProcPtr glVertexAttrib4NuivARB;
+glVertexAttrib4NusvARBProcPtr glVertexAttrib4NusvARB;
+glVertexAttrib4bvARBProcPtr glVertexAttrib4bvARB;
+glVertexAttrib4dARBProcPtr glVertexAttrib4dARB;
+glVertexAttrib4dvARBProcPtr glVertexAttrib4dvARB;
+glVertexAttrib4fARBProcPtr glVertexAttrib4fARB;
+glVertexAttrib4fvARBProcPtr glVertexAttrib4fvARB;
+glVertexAttrib4ivARBProcPtr glVertexAttrib4ivARB;
+glVertexAttrib4sARBProcPtr glVertexAttrib4sARB;
+glVertexAttrib4svARBProcPtr glVertexAttrib4svARB;
+glVertexAttrib4ubvARBProcPtr glVertexAttrib4ubvARB;
+glVertexAttrib4uivARBProcPtr glVertexAttrib4uivARB;
+glVertexAttrib4usvARBProcPtr glVertexAttrib4usvARB;
+glVertexAttribPointerARBProcPtr glVertexAttribPointerARB;
+glEnableVertexAttribArrayARBProcPtr glEnableVertexAttribArrayARB;
+glDisableVertexAttribArrayARBProcPtr glDisableVertexAttribArrayARB;
+glGetVertexAttribdvARBProcPtr glGetVertexAttribdvARB;
+glGetVertexAttribfvARBProcPtr glGetVertexAttribfvARB;
+glGetVertexAttribivARBProcPtr glGetVertexAttribivARB;
+glGetVertexAttribPointervARBProcPtr glGetVertexAttribPointervARB;
+glBindAttribLocationARBProcPtr glBindAttribLocationARB;
+glGetActiveAttribARBProcPtr glGetActiveAttribARB;
+glGetAttribLocationARBProcPtr glGetAttribLocationARB;
 
 // Debug Output
 #ifndef __APPLE__
-bglDebugMessageControlARBProcPtr bglDebugMessageControlARB;
-bglDebugMessageCallbackARBProcPtr bglDebugMessageCallbackARB;
+glDebugMessageControlARBProcPtr glDebugMessageControlARB;
+glDebugMessageCallbackARBProcPtr glDebugMessageCallbackARB;
 #endif
 
 #ifdef _WIN32
-bwglSwapIntervalEXTProcPtr bwglSwapIntervalEXT;
-bwglCreateContextAttribsARBProcPtr bwglCreateContextAttribsARB;
+wglSwapIntervalEXTProcPtr wglSwapIntervalEXT;
+wglCreateContextAttribsARBProcPtr wglCreateContextAttribsARB;
 #endif
 
 #endif
@@ -308,23 +308,23 @@ bwglCreateContextAttribsARBProcPtr bwglCreateContextAttribsARB;
 #if defined DYNAMIC_GLU
 
 // GLU
-bgluTessBeginContourProcPtr bgluTessBeginContour;
-bgluTessBeginPolygonProcPtr bgluTessBeginPolygon;
-bgluTessCallbackProcPtr bgluTessCallback;
-bgluTessEndContourProcPtr bgluTessEndContour;
-bgluTessEndPolygonProcPtr bgluTessEndPolygon;
-bgluTessNormalProcPtr bgluTessNormal;
-bgluTessPropertyProcPtr bgluTessProperty;
-bgluTessVertexProcPtr bgluTessVertex;
-bgluNewTessProcPtr bgluNewTess;
-bgluDeleteTessProcPtr bgluDeleteTess;
+gluTessBeginContourProcPtr gluTessBeginContour;
+gluTessBeginPolygonProcPtr gluTessBeginPolygon;
+gluTessCallbackProcPtr gluTessCallback;
+gluTessEndContourProcPtr gluTessEndContour;
+gluTessEndPolygonProcPtr gluTessEndPolygon;
+gluTessNormalProcPtr gluTessNormal;
+gluTessPropertyProcPtr gluTessProperty;
+gluTessVertexProcPtr gluTessVertex;
+gluNewTessProcPtr gluNewTess;
+gluDeleteTessProcPtr gluDeleteTess;
 
-bgluPerspectiveProcPtr bgluPerspective;
+gluPerspectiveProcPtr gluPerspective;
 
-bgluErrorStringProcPtr bgluErrorString;
+gluErrorStringProcPtr gluErrorString;
 
-bgluProjectProcPtr bgluProject;
-bgluUnProjectProcPtr bgluUnProject;
+gluProjectProcPtr gluProject;
+gluUnProjectProcPtr gluUnProject;
 
 #endif
 
@@ -350,7 +350,7 @@ static void *getproc_(const char *s, int32_t *err, int32_t fatal, int32_t extens
     UNREFERENCED_PARAMETER(extension);
     t = (void *)SDL_GL_GetProcAddress(s);
 #elif defined _WIN32
-    if (extension) t = (void *)bwglGetProcAddress(s);
+    if (extension) t = (void *)wglGetProcAddress(s);
     else t = (void *)GetProcAddress(hGLDLL,s);
 #else
 #error Need a dynamic loader for this platform...
@@ -389,9 +389,9 @@ int32_t loadgldriver(const char *driver)
 #elif defined EDUKE32_OSX
         driver = "/System/Library/Frameworks/OpenGL.framework/OpenGL";
 #elif defined __OpenBSD__
-        driver = "libGL.so";
+        driver = "ligl.so";
 #else
-        driver = "libGL.so.1";
+        driver = "ligl.so.1";
 #endif
     }
 
@@ -414,134 +414,134 @@ int32_t loadgldriver(const char *driver)
 
 #if defined DYNAMIC_GL
 #ifdef _WIN32
-    bwglCreateContext = (bwglCreateContextProcPtr) GETPROC("wglCreateContext");
-    bwglDeleteContext = (bwglDeleteContextProcPtr) GETPROC("wglDeleteContext");
-    bwglGetProcAddress = (bwglGetProcAddressProcPtr) GETPROC("wglGetProcAddress");
-    bwglMakeCurrent = (bwglMakeCurrentProcPtr) GETPROC("wglMakeCurrent");
+    wglCreateContext = (wglCreateContextProcPtr) GETPROC("wglCreateContext");
+    wglDeleteContext = (wglDeleteContextProcPtr) GETPROC("wglDeleteContext");
+    wglGetProcAddress = (wglGetProcAddressProcPtr) GETPROC("wglGetProcAddress");
+    wglMakeCurrent = (wglMakeCurrentProcPtr) GETPROC("wglMakeCurrent");
 
-    bwglSwapBuffers = (bwglSwapBuffersProcPtr) GETPROC("wglSwapBuffers");
-    bwglChoosePixelFormat = (bwglChoosePixelFormatProcPtr) GETPROC("wglChoosePixelFormat");
-    bwglDescribePixelFormat = (bwglDescribePixelFormatProcPtr) GETPROC("wglDescribePixelFormat");
-    bwglGetPixelFormat = (bwglGetPixelFormatProcPtr) GETPROC("wglGetPixelFormat");
-    bwglSetPixelFormat = (bwglSetPixelFormatProcPtr) GETPROC("wglSetPixelFormat");
+    wglSwapBuffers = (wglSwapBuffersProcPtr) GETPROC("wglSwapBuffers");
+    wglChoosePixelFormat = (wglChoosePixelFormatProcPtr) GETPROC("wglChoosePixelFormat");
+    wglDescribePixelFormat = (wglDescribePixelFormatProcPtr) GETPROC("wglDescribePixelFormat");
+    wglGetPixelFormat = (wglGetPixelFormatProcPtr) GETPROC("wglGetPixelFormat");
+    wglSetPixelFormat = (wglSetPixelFormatProcPtr) GETPROC("wglSetPixelFormat");
 #endif
 
-    bglClearColor = (bglClearColorProcPtr) GETPROC("glClearColor");
-    bglClear = (bglClearProcPtr) GETPROC("glClear");
-    bglColorMask = (bglColorMaskProcPtr) GETPROC("glColorMask");
-    bglAlphaFunc = (bglAlphaFuncProcPtr) GETPROC("glAlphaFunc");
-    bglBlendFunc = (bglBlendFuncProcPtr) GETPROC("glBlendFunc");
-    bglCullFace = (bglCullFaceProcPtr) GETPROC("glCullFace");
-    bglFrontFace = (bglFrontFaceProcPtr) GETPROC("glFrontFace");
-    bglPolygonOffset = (bglPolygonOffsetProcPtr) GETPROC("glPolygonOffset");
-    bglPolygonMode = (bglPolygonModeProcPtr) GETPROC("glPolygonMode");
-    bglEnable = (bglEnableProcPtr) GETPROC("glEnable");
-    bglDisable = (bglDisableProcPtr) GETPROC("glDisable");
-    bglGetDoublev = (bglGetDoublevProcPtr) GETPROC("glGetDoublev");
-    bglGetFloatv = (bglGetFloatvProcPtr) GETPROC("glGetFloatv");
-    bglGetIntegerv = (bglGetIntegervProcPtr) GETPROC("glGetIntegerv");
-    bglPushAttrib = (bglPushAttribProcPtr) GETPROC("glPushAttrib");
-    bglPopAttrib = (bglPopAttribProcPtr) GETPROC("glPopAttrib");
-    bglGetError = (bglGetErrorProcPtr) GETPROC("glGetError");
-    bglGetString = (bglGetStringProcPtr) GETPROC("glGetString");
-    bglHint = (bglHintProcPtr) GETPROC("glHint");
-    bglDrawBuffer = (bglDrawBufferProcPtr) GETPROC("glDrawBuffer");
-    bglReadBuffer = (bglReadBufferProcPtr) GETPROC("glDrawBuffer");
-    bglScissor = (bglScissorProcPtr) GETPROC("glScissor");
-    bglClipPlane = (bglClipPlaneProcPtr) GETPROC("glClipPlane");
+    glClearColor = (glClearColorProcPtr) GETPROC("glClearColor");
+    glClear = (glClearProcPtr) GETPROC("glClear");
+    glColorMask = (glColorMaskProcPtr) GETPROC("glColorMask");
+    glAlphaFunc = (glAlphaFuncProcPtr) GETPROC("glAlphaFunc");
+    glBlendFunc = (glBlendFuncProcPtr) GETPROC("glBlendFunc");
+    glCullFace = (glCullFaceProcPtr) GETPROC("glCullFace");
+    glFrontFace = (glFrontFaceProcPtr) GETPROC("glFrontFace");
+    glPolygonOffset = (glPolygonOffsetProcPtr) GETPROC("glPolygonOffset");
+    glPolygonMode = (glPolygonModeProcPtr) GETPROC("glPolygonMode");
+    glEnable = (glEnableProcPtr) GETPROC("glEnable");
+    glDisable = (glDisableProcPtr) GETPROC("glDisable");
+    glGetDoublev = (glGetDoublevProcPtr) GETPROC("glGetDoublev");
+    glGetFloatv = (glGetFloatvProcPtr) GETPROC("glGetFloatv");
+    glGetIntegerv = (glGetIntegervProcPtr) GETPROC("glGetIntegerv");
+    glPushAttrib = (glPushAttribProcPtr) GETPROC("glPushAttrib");
+    glPopAttrib = (glPopAttribProcPtr) GETPROC("glPopAttrib");
+    glGetError = (glGetErrorProcPtr) GETPROC("glGetError");
+    glGetString = (glGetStringProcPtr) GETPROC("glGetString");
+    glHint = (glHintProcPtr) GETPROC("glHint");
+    glDrawBuffer = (glDrawBufferProcPtr) GETPROC("glDrawBuffer");
+    glReadBuffer = (glReadBufferProcPtr) GETPROC("glDrawBuffer");
+    glScissor = (glScissorProcPtr) GETPROC("glScissor");
+    glClipPlane = (glClipPlaneProcPtr) GETPROC("glClipPlane");
 
     // Depth
-    bglDepthFunc = (bglDepthFuncProcPtr) GETPROC("glDepthFunc");
-    bglDepthMask = (bglDepthMaskProcPtr) GETPROC("glDepthMask");
-//    bglDepthRange = (bglDepthRangeProcPtr) GETPROC("glDepthRange");
+    glDepthFunc = (glDepthFuncProcPtr) GETPROC("glDepthFunc");
+    glDepthMask = (glDepthMaskProcPtr) GETPROC("glDepthMask");
+//    glDepthRange = (glDepthRangeProcPtr) GETPROC("glDepthRange");
 
     // Matrix
-    bglMatrixMode = (bglMatrixModeProcPtr) GETPROC("glMatrixMode");
-    bglOrtho = (bglOrthoProcPtr) GETPROC("glOrtho");
-    bglFrustum = (bglFrustumProcPtr) GETPROC("glFrustum");
-    bglViewport = (bglViewportProcPtr) GETPROC("glViewport");
-    bglPushMatrix = (bglPushMatrixProcPtr) GETPROC("glPushMatrix");
-    bglPopMatrix = (bglPopMatrixProcPtr) GETPROC("glPopMatrix");
-    bglLoadIdentity = (bglLoadIdentityProcPtr) GETPROC("glLoadIdentity");
-    bglLoadMatrixf = (bglLoadMatrixfProcPtr) GETPROC("glLoadMatrixf");
-    bglLoadMatrixd = (bglLoadMatrixdProcPtr) GETPROC("glLoadMatrixd");
-    bglMultMatrixf = (bglMultMatrixfProcPtr) GETPROC("glMultMatrixf");
-    bglMultMatrixd = (bglMultMatrixdProcPtr) GETPROC("glMultMatrixd");
-    bglRotatef = (bglRotatefProcPtr) GETPROC("glRotatef");
-    bglScalef = (bglScalefProcPtr) GETPROC("glScalef");
-    bglTranslatef = (bglTranslatefProcPtr) GETPROC("glTranslatef");
+    glMatrixMode = (glMatrixModeProcPtr) GETPROC("glMatrixMode");
+    glOrtho = (glOrthoProcPtr) GETPROC("glOrtho");
+    glFrustum = (glFrustumProcPtr) GETPROC("glFrustum");
+    glViewport = (glViewportProcPtr) GETPROC("glViewport");
+    glPushMatrix = (glPushMatrixProcPtr) GETPROC("glPushMatrix");
+    glPopMatrix = (glPopMatrixProcPtr) GETPROC("glPopMatrix");
+    glLoadIdentity = (glLoadIdentityProcPtr) GETPROC("glLoadIdentity");
+    glLoadMatrixf = (glLoadMatrixfProcPtr) GETPROC("glLoadMatrixf");
+    glLoadMatrixd = (glLoadMatrixdProcPtr) GETPROC("glLoadMatrixd");
+    glMultMatrixf = (glMultMatrixfProcPtr) GETPROC("glMultMatrixf");
+    glMultMatrixd = (glMultMatrixdProcPtr) GETPROC("glMultMatrixd");
+    glRotatef = (glRotatefProcPtr) GETPROC("glRotatef");
+    glScalef = (glScalefProcPtr) GETPROC("glScalef");
+    glTranslatef = (glTranslatefProcPtr) GETPROC("glTranslatef");
 
     // Drawing
-    bglBegin = (bglBeginProcPtr) GETPROC("glBegin");
-    bglEnd = (bglEndProcPtr) GETPROC("glEnd");
-    bglVertex2f = (bglVertex2fProcPtr) GETPROC("glVertex2f");
-    bglVertex2i = (bglVertex2iProcPtr) GETPROC("glVertex2i");
-    bglVertex3f = (bglVertex3fProcPtr) GETPROC("glVertex3f");
-    bglVertex3d = (bglVertex3dProcPtr) GETPROC("glVertex3d");
-    bglVertex3fv = (bglVertex3fvProcPtr) GETPROC("glVertex3fv");
-    bglVertex3dv = (bglVertex3dvProcPtr) GETPROC("glVertex3dv");
-    bglRecti = (bglRectiProcPtr) GETPROC("glRecti");
-    bglColor3f = (bglColor3fProcPtr) GETPROC("glColor3f");
-    bglColor4f = (bglColor4fProcPtr) GETPROC("glColor4f");
-    bglColor4ub = (bglColor4ubProcPtr) GETPROC("glColor4ub");
-    bglTexCoord2d = (bglTexCoord2dProcPtr) GETPROC("glTexCoord2d");
-    bglTexCoord2f = (bglTexCoord2fProcPtr) GETPROC("glTexCoord2f");
-    bglTexCoord2i = (bglTexCoord2iProcPtr) GETPROC("glTexCoord2i");
-    bglNormal3f = (bglNormal3fProcPtr) GETPROC("glNormal3f");
+    glBegin = (glBeginProcPtr) GETPROC("glBegin");
+    glEnd = (glEndProcPtr) GETPROC("glEnd");
+    glVertex2f = (glVertex2fProcPtr) GETPROC("glVertex2f");
+    glVertex2i = (glVertex2iProcPtr) GETPROC("glVertex2i");
+    glVertex3f = (glVertex3fProcPtr) GETPROC("glVertex3f");
+    glVertex3d = (glVertex3dProcPtr) GETPROC("glVertex3d");
+    glVertex3fv = (glVertex3fvProcPtr) GETPROC("glVertex3fv");
+    glVertex3dv = (glVertex3dvProcPtr) GETPROC("glVertex3dv");
+    glRecti = (glRectiProcPtr) GETPROC("glRecti");
+    glColor3f = (glColor3fProcPtr) GETPROC("glColor3f");
+    glColor4f = (glColor4fProcPtr) GETPROC("glColor4f");
+    glColor4ub = (glColor4ubProcPtr) GETPROC("glColor4ub");
+    glTexCoord2d = (glTexCoord2dProcPtr) GETPROC("glTexCoord2d");
+    glTexCoord2f = (glTexCoord2fProcPtr) GETPROC("glTexCoord2f");
+    glTexCoord2i = (glTexCoord2iProcPtr) GETPROC("glTexCoord2i");
+    glNormal3f = (glNormal3fProcPtr) GETPROC("glNormal3f");
 
     // Lighting
-    bglShadeModel = (bglShadeModelProcPtr) GETPROC("glShadeModel");
-    bglLightfv = (bglLightfvProcPtr) GETPROC("glLightfv");
+    glShadeModel = (glShadeModelProcPtr) GETPROC("glShadeModel");
+    glLightfv = (glLightfvProcPtr) GETPROC("glLightfv");
 
     // Raster funcs
-    bglReadPixels = (bglReadPixelsProcPtr) GETPROC("glReadPixels");
-    bglRasterPos4i = (bglRasterPos4iProcPtr) GETPROC("glRasterPos4i");
-    bglDrawPixels = (bglDrawPixelsProcPtr) GETPROC("glDrawPixels");
-    bglPixelStorei = (bglPixelStoreiProcPtr) GETPROC("glPixelStorei");
+    glReadPixels = (glReadPixelsProcPtr) GETPROC("glReadPixels");
+    glRasterPos4i = (glRasterPos4iProcPtr) GETPROC("glRasterPos4i");
+    glDrawPixels = (glDrawPixelsProcPtr) GETPROC("glDrawPixels");
+    glPixelStorei = (glPixelStoreiProcPtr) GETPROC("glPixelStorei");
 
     // Texture mapping
-    bglTexEnvf = (bglTexEnvfProcPtr) GETPROC("glTexEnvf");
-    bglGenTextures = (bglGenTexturesProcPtr) GETPROC("glGenTextures");
-    bglDeleteTextures = (bglDeleteTexturesProcPtr) GETPROC("glDeleteTextures");
-    bglBindTexture = (bglBindTextureProcPtr) GETPROC("glBindTexture");
-    bglTexImage2D = (bglTexImage2DProcPtr) GETPROC("glTexImage2D");
-    bglCopyTexImage2D = (bglCopyTexImage2DProcPtr) GETPROC("glCopyTexImage2D");
-    bglCopyTexSubImage2D = (bglCopyTexSubImage2DProcPtr) GETPROC("glCopyTexSubImage2D");
-    bglTexSubImage2D = (bglTexSubImage2DProcPtr) GETPROC("glTexSubImage2D");
-    bglTexParameterf = (bglTexParameterfProcPtr) GETPROC("glTexParameterf");
-    bglTexParameteri = (bglTexParameteriProcPtr) GETPROC("glTexParameteri");
-    bglGetTexParameteriv = (bglGetTexParameterivProcPtr) GETPROC("glGetTexParameteriv");
-    bglGetTexLevelParameteriv = (bglGetTexLevelParameterivProcPtr) GETPROC("glGetTexLevelParameteriv");
-    bglTexGenfv = (bglTexGenfvProcPtr) GETPROC("glTexGenfv");
+    glTexEnvf = (glTexEnvfProcPtr) GETPROC("glTexEnvf");
+    glGenTextures = (glGenTexturesProcPtr) GETPROC("glGenTextures");
+    glDeleteTextures = (glDeleteTexturesProcPtr) GETPROC("glDeleteTextures");
+    glBindTexture = (glBindTextureProcPtr) GETPROC("glBindTexture");
+    glTexImage2D = (glTexImage2DProcPtr) GETPROC("glTexImage2D");
+    glCopyTexImage2D = (glCopyTexImage2DProcPtr) GETPROC("glCopyTexImage2D");
+    glCopyTexSubImage2D = (glCopyTexSubImage2DProcPtr) GETPROC("glCopyTexSubImage2D");
+    glTexSubImage2D = (glTexSubImage2DProcPtr) GETPROC("glTexSubImage2D");
+    glTexParameterf = (glTexParameterfProcPtr) GETPROC("glTexParameterf");
+    glTexParameteri = (glTexParameteriProcPtr) GETPROC("glTexParameteri");
+    glGetTexParameteriv = (glGetTexParameterivProcPtr) GETPROC("glGetTexParameteriv");
+    glGetTexLevelParameteriv = (glGetTexLevelParameterivProcPtr) GETPROC("glGetTexLevelParameteriv");
+    glTexGenfv = (glTexGenfvProcPtr) GETPROC("glTexGenfv");
 
     // Fog
-    bglFogf = (bglFogfProcPtr) GETPROC("glFogf");
-    bglFogi = (bglFogiProcPtr) GETPROC("glFogi");
-    bglFogfv = (bglFogfvProcPtr) GETPROC("glFogfv");
+    glFogf = (glFogfProcPtr) GETPROC("glFogf");
+    glFogi = (glFogiProcPtr) GETPROC("glFogi");
+    glFogfv = (glFogfvProcPtr) GETPROC("glFogfv");
 
     // Display Lists
-    bglNewList = (bglNewListProcPtr) GETPROC("glNewList");
-    bglEndList = (bglEndListProcPtr) GETPROC("glEndList");
-    bglCallList = (bglCallListProcPtr) GETPROC("glCallList");
-    bglDeleteLists = (bglDeleteListsProcPtr) GETPROC("glDeleteLists");
+    glNewList = (glNewListProcPtr) GETPROC("glNewList");
+    glEndList = (glEndListProcPtr) GETPROC("glEndList");
+    glCallList = (glCallListProcPtr) GETPROC("glCallList");
+    glDeleteLists = (glDeleteListsProcPtr) GETPROC("glDeleteLists");
 
     // Vertex Arrays
-    bglEnableClientState = (bglEnableClientStateProcPtr) GETPROC("glEnableClientState");
-    bglDisableClientState = (bglDisableClientStateProcPtr) GETPROC("glDisableClientState");
-    bglVertexPointer = (bglVertexPointerProcPtr) GETPROC("glVertexPointer");
-    bglNormalPointer = (bglNormalPointerProcPtr) GETPROC("glNormalPointer");
-    bglTexCoordPointer = (bglTexCoordPointerProcPtr) GETPROC("glTexCoordPointer");
-    bglDrawArrays = (bglDrawArraysProcPtr) GETPROC("glDrawArrays");
-    bglDrawElements = (bglDrawElementsProcPtr) GETPROC("glDrawElements");
+    glEnableClientState = (glEnableClientStateProcPtr) GETPROC("glEnableClientState");
+    glDisableClientState = (glDisableClientStateProcPtr) GETPROC("glDisableClientState");
+    glVertexPointer = (glVertexPointerProcPtr) GETPROC("glVertexPointer");
+    glNormalPointer = (glNormalPointerProcPtr) GETPROC("glNormalPointer");
+    glTexCoordPointer = (glTexCoordPointerProcPtr) GETPROC("glTexCoordPointer");
+    glDrawArrays = (glDrawArraysProcPtr) GETPROC("glDrawArrays");
+    glDrawElements = (glDrawElementsProcPtr) GETPROC("glDrawElements");
 
     // Stencil Buffer
-    bglClearStencil = (bglClearStencilProcPtr) GETPROC("glClearStencil");
-    bglStencilOp = (bglStencilOpProcPtr) GETPROC("glStencilOp");
-    bglStencilFunc = (bglStencilFuncProcPtr) GETPROC("glStencilFunc");
+    glClearStencil = (glClearStencilProcPtr) GETPROC("glClearStencil");
+    glStencilOp = (glStencilOpProcPtr) GETPROC("glStencilOp");
+    glStencilFunc = (glStencilFuncProcPtr) GETPROC("glStencilFunc");
 #endif
 
-    loadglextensions();
-    loadglulibrary(getenv("BUILD_GLULIB"));
+//    loadglextensions();
+//    loadglulibrary(getenv("BUILD_GLULIB"));
 
 #if defined DYNAMIC_GL || defined DYNAMIC_GLEXT
     if (err) unloadgldriver();
@@ -560,154 +560,154 @@ int32_t loadglextensions(void)
     if (!hGLDLL) return 0;
 #endif
 
-    bglBlendEquation = (bglBlendEquationProcPtr) GETPROCEXTSOFT("glBlendEquation");
+    glBlendEquation = (glBlendEquationProcPtr) GETPROCEXTSOFT("glBlendEquation");
 
-    bglTexImage3D = (bglTexImage3DProcPtr) GETPROCEXTSOFT("glTexImage3D");
-    bglCompressedTexImage2DARB = (bglCompressedTexImage2DARBProcPtr) GETPROCEXTSOFT("glCompressedTexImage2DARB");
-    bglGetCompressedTexImageARB = (bglGetCompressedTexImageARBProcPtr) GETPROCEXTSOFT("glGetCompressedTexImageARB");
+    glTexImage3D = (glTexImage3DProcPtr) GETPROCEXTSOFT("glTexImage3D");
+    glCompressedTexImage2DARB = (glCompressedTexImage2DARBProcPtr) GETPROCEXTSOFT("glCompressedTexImage2DARB");
+    glGetCompressedTexImageARB = (glGetCompressedTexImageARBProcPtr) GETPROCEXTSOFT("glGetCompressedTexImageARB");
 
     // GPU Programs
-    bglGenProgramsARB = (bglGenProgramsARBProcPtr) GETPROCEXTSOFT("glGenProgramsARB");
-    bglBindProgramARB = (bglBindProgramARBProcPtr) GETPROCEXTSOFT("glBindProgramARB");
-    bglProgramStringARB = (bglProgramStringARBProcPtr) GETPROCEXTSOFT("glProgramStringARB");
-    bglDeleteProgramsARB = (bglDeleteProgramsARBProcPtr) GETPROCEXTSOFT("glDeleteProgramsARB");
+    glGenProgramsARB = (glGenProgramsARBProcPtr) GETPROCEXTSOFT("glGenProgramsARB");
+    glBindProgramARB = (glBindProgramARBProcPtr) GETPROCEXTSOFT("glBindProgramARB");
+    glProgramStringARB = (glProgramStringARBProcPtr) GETPROCEXTSOFT("glProgramStringARB");
+    glDeleteProgramsARB = (glDeleteProgramsARBProcPtr) GETPROCEXTSOFT("glDeleteProgramsARB");
 
     // Multitexturing
-    bglActiveTextureARB = (bglActiveTextureARBProcPtr) GETPROCEXTSOFT("glActiveTextureARB");
-    bglClientActiveTextureARB = (bglClientActiveTextureARBProcPtr) GETPROCEXTSOFT("glClientActiveTextureARB");
-    bglMultiTexCoord2dARB = (bglMultiTexCoord2dARBProcPtr) GETPROCEXTSOFT("glMultiTexCoord2dARB");
-    bglMultiTexCoord2fARB = (bglMultiTexCoord2fARBProcPtr) GETPROCEXTSOFT("glMultiTexCoord2fARB");
+    glActiveTextureARB = (glActiveTextureARBProcPtr) GETPROCEXTSOFT("glActiveTextureARB");
+    glClientActiveTextureARB = (glClientActiveTextureARBProcPtr) GETPROCEXTSOFT("glClientActiveTextureARB");
+    glMultiTexCoord2dARB = (glMultiTexCoord2dARBProcPtr) GETPROCEXTSOFT("glMultiTexCoord2dARB");
+    glMultiTexCoord2fARB = (glMultiTexCoord2fARBProcPtr) GETPROCEXTSOFT("glMultiTexCoord2fARB");
 
     // Frame Buffer Objects
-    bglGenFramebuffersEXT = (bglGenFramebuffersEXTProcPtr) GETPROCEXTSOFT("glGenFramebuffersEXT");
-    bglBindFramebufferEXT = (bglBindFramebufferEXTProcPtr) GETPROCEXTSOFT("glBindFramebufferEXT");
-    bglFramebufferTexture2DEXT = (bglFramebufferTexture2DEXTProcPtr) GETPROCEXTSOFT("glFramebufferTexture2DEXT");
-    bglCheckFramebufferStatusEXT = (bglCheckFramebufferStatusEXTProcPtr) GETPROCEXTSOFT("glCheckFramebufferStatusEXT");
-    bglDeleteFramebuffersEXT = (bglDeleteFramebuffersEXTProcPtr) GETPROCEXTSOFT("glDeleteFramebuffersEXT");
+    glGenFramebuffersEXT = (glGenFramebuffersEXTProcPtr) GETPROCEXTSOFT("glGenFramebuffersEXT");
+    glBindFramebufferEXT = (glBindFramebufferEXTProcPtr) GETPROCEXTSOFT("glBindFramebufferEXT");
+    glFramebufferTexture2DEXT = (glFramebufferTexture2DEXTProcPtr) GETPROCEXTSOFT("glFramebufferTexture2DEXT");
+    glCheckFramebufferStatusEXT = (glCheckFramebufferStatusEXTProcPtr) GETPROCEXTSOFT("glCheckFramebufferStatusEXT");
+    glDeleteFramebuffersEXT = (glDeleteFramebuffersEXTProcPtr) GETPROCEXTSOFT("glDeleteFramebuffersEXT");
 
     // Vertex Buffer Objects
-    bglGenBuffersARB = (bglGenBuffersARBProcPtr) GETPROCEXTSOFT("glGenBuffersARB");
-    bglBindBufferARB = (bglBindBufferARBProcPtr) GETPROCEXTSOFT("glBindBufferARB");
-    bglDeleteBuffersARB = (bglDeleteBuffersARBProcPtr) GETPROCEXTSOFT("glDeleteBuffersARB");
-    bglBufferDataARB = (bglBufferDataARBProcPtr) GETPROCEXTSOFT("glBufferDataARB");
-    bglBufferSubDataARB = (bglBufferSubDataARBProcPtr) GETPROCEXTSOFT("glBufferSubDataARB");
-    bglMapBufferARB = (bglMapBufferARBProcPtr) GETPROCEXTSOFT("glMapBufferARB");
-    bglUnmapBufferARB = (bglUnmapBufferARBProcPtr) GETPROCEXTSOFT("glUnmapBufferARB");
+    glGenBuffersARB = (glGenBuffersARBProcPtr) GETPROCEXTSOFT("glGenBuffersARB");
+    glBindBufferARB = (glBindBufferARBProcPtr) GETPROCEXTSOFT("glBindBufferARB");
+    glDeleteBuffersARB = (glDeleteBuffersARBProcPtr) GETPROCEXTSOFT("glDeleteBuffersARB");
+    glBufferDataARB = (glBufferDataARBProcPtr) GETPROCEXTSOFT("glBufferDataARB");
+    glBufferSubDataARB = (glBufferSubDataARBProcPtr) GETPROCEXTSOFT("glBufferSubDataARB");
+    glMapBufferARB = (glMapBufferARBProcPtr) GETPROCEXTSOFT("glMapBufferARB");
+    glUnmapBufferARB = (glUnmapBufferARBProcPtr) GETPROCEXTSOFT("glUnmapBufferARB");
 
     // ARB_buffer_storage
-    bglBufferStorage = (bglBufferStorageProcPtr)GETPROCEXTSOFT("glBufferStorage");
+    glBufferStorage = (glBufferStorageProcPtr)GETPROCEXTSOFT("glBufferStorage");
 
     // ARB_map_buffer_range
-    bglMapBufferRange = (bglMapBufferRangeProcPtr)GETPROCEXTSOFT("glMapBufferRange");
+    glMapBufferRange = (glMapBufferRangeProcPtr)GETPROCEXTSOFT("glMapBufferRange");
 
     // Occlusion queries
-    bglGenQueriesARB = (bglGenQueriesARBProcPtr) GETPROCEXTSOFT("glGenQueriesARB");
-    bglDeleteQueriesARB = (bglDeleteQueriesARBProcPtr) GETPROCEXTSOFT("glDeleteQueriesARB");
-    bglIsQueryARB = (bglIsQueryARBProcPtr) GETPROCEXTSOFT("glIsQueryARB");
-    bglBeginQueryARB = (bglBeginQueryARBProcPtr) GETPROCEXTSOFT("glBeginQueryARB");
-    bglEndQueryARB = (bglEndQueryARBProcPtr) GETPROCEXTSOFT("glEndQueryARB");
-    bglGetQueryivARB = (bglGetQueryivARBProcPtr) GETPROCEXTSOFT("glGetQueryivARB");
-    bglGetQueryObjectivARB = (bglGetQueryObjectivARBProcPtr) GETPROCEXTSOFT("glGetQueryObjectivARB");
-    bglGetQueryObjectuivARB = (bglGetQueryObjectuivARBProcPtr) GETPROCEXTSOFT("glGetQueryObjectuivARB");
+    glGenQueriesARB = (glGenQueriesARBProcPtr) GETPROCEXTSOFT("glGenQueriesARB");
+    glDeleteQueriesARB = (glDeleteQueriesARBProcPtr) GETPROCEXTSOFT("glDeleteQueriesARB");
+    glIsQueryARB = (glIsQueryARBProcPtr) GETPROCEXTSOFT("glIsQueryARB");
+    glBeginQueryARB = (glBeginQueryARBProcPtr) GETPROCEXTSOFT("glBeginQueryARB");
+    glEndQueryARB = (glEndQueryARBProcPtr) GETPROCEXTSOFT("glEndQueryARB");
+    glGetQueryivARB = (glGetQueryivARBProcPtr) GETPROCEXTSOFT("glGetQueryivARB");
+    glGetQueryObjectivARB = (glGetQueryObjectivARBProcPtr) GETPROCEXTSOFT("glGetQueryObjectivARB");
+    glGetQueryObjectuivARB = (glGetQueryObjectuivARBProcPtr) GETPROCEXTSOFT("glGetQueryObjectuivARB");
 
     // Shader Objects
-    bglDeleteObjectARB = (bglDeleteObjectARBProcPtr) GETPROCEXTSOFT("glDeleteObjectARB");
-    bglGetHandleARB = (bglGetHandleARBProcPtr) GETPROCEXTSOFT("glGetHandleARB");
-    bglDetachObjectARB = (bglDetachObjectARBProcPtr) GETPROCEXTSOFT("glDetachObjectARB");
-    bglCreateShaderObjectARB = (bglCreateShaderObjectARBProcPtr) GETPROCEXTSOFT("glCreateShaderObjectARB");
-    bglShaderSourceARB = (bglShaderSourceARBProcPtr) GETPROCEXTSOFT("glShaderSourceARB");
-    bglCompileShaderARB = (bglCompileShaderARBProcPtr) GETPROCEXTSOFT("glCompileShaderARB");
-    bglCreateProgramObjectARB = (bglCreateProgramObjectARBProcPtr) GETPROCEXTSOFT("glCreateProgramObjectARB");
-    bglAttachObjectARB = (bglAttachObjectARBProcPtr) GETPROCEXTSOFT("glAttachObjectARB");
-    bglLinkProgramARB = (bglLinkProgramARBProcPtr) GETPROCEXTSOFT("glLinkProgramARB");
-    bglUseProgramObjectARB = (bglUseProgramObjectARBProcPtr) GETPROCEXTSOFT("glUseProgramObjectARB");
-    bglValidateProgramARB = (bglValidateProgramARBProcPtr) GETPROCEXTSOFT("glValidateProgramARB");
-    bglUniform1fARB = (bglUniform1fARBProcPtr) GETPROCEXTSOFT("glUniform1fARB");
-    bglUniform2fARB = (bglUniform2fARBProcPtr) GETPROCEXTSOFT("glUniform2fARB");
-    bglUniform3fARB = (bglUniform3fARBProcPtr) GETPROCEXTSOFT("glUniform3fARB");
-    bglUniform4fARB = (bglUniform4fARBProcPtr) GETPROCEXTSOFT("glUniform4fARB");
-    bglUniform1iARB = (bglUniform1iARBProcPtr) GETPROCEXTSOFT("glUniform1iARB");
-    bglUniform2iARB = (bglUniform2iARBProcPtr) GETPROCEXTSOFT("glUniform2iARB");
-    bglUniform3iARB = (bglUniform3iARBProcPtr) GETPROCEXTSOFT("glUniform3iARB");
-    bglUniform4iARB = (bglUniform4iARBProcPtr) GETPROCEXTSOFT("glUniform4iARB");
-    bglUniform1fvARB = (bglUniform1fvARBProcPtr) GETPROCEXTSOFT("glUniform1fvARB");
-    bglUniform2fvARB = (bglUniform2fvARBProcPtr) GETPROCEXTSOFT("glUniform2fvARB");
-    bglUniform3fvARB = (bglUniform3fvARBProcPtr) GETPROCEXTSOFT("glUniform3fvARB");
-    bglUniform4fvARB = (bglUniform4fvARBProcPtr) GETPROCEXTSOFT("glUniform4fvARB");
-    bglUniform1ivARB = (bglUniform1ivARBProcPtr) GETPROCEXTSOFT("glUniform1ivARB");
-    bglUniform2ivARB = (bglUniform2ivARBProcPtr) GETPROCEXTSOFT("glUniform2ivARB");
-    bglUniform3ivARB = (bglUniform3ivARBProcPtr) GETPROCEXTSOFT("glUniform3ivARB");
-    bglUniform4ivARB = (bglUniform4ivARBProcPtr) GETPROCEXTSOFT("glUniform4ivARB");
-    bglUniformMatrix2fvARB = (bglUniformMatrix2fvARBProcPtr) GETPROCEXTSOFT("glUniformMatrix2fvARB");
-    bglUniformMatrix3fvARB = (bglUniformMatrix3fvARBProcPtr) GETPROCEXTSOFT("glUniformMatrix3fvARB");
-    bglUniformMatrix4fvARB = (bglUniformMatrix4fvARBProcPtr) GETPROCEXTSOFT("glUniformMatrix4fvARB");
-    bglGetObjectParameterfvARB = (bglGetObjectParameterfvARBProcPtr) GETPROCEXTSOFT("glGetObjectParameterfvARB");
-    bglGetObjectParameterivARB = (bglGetObjectParameterivARBProcPtr) GETPROCEXTSOFT("glGetObjectParameterivARB");
-    bglGetInfoLogARB = (bglGetInfoLogARBProcPtr) GETPROCEXTSOFT("glGetInfoLogARB");
-    bglGetAttachedObjectsARB = (bglGetAttachedObjectsARBProcPtr) GETPROCEXTSOFT("glGetAttachedObjectsARB");
-    bglGetUniformLocationARB = (bglGetUniformLocationARBProcPtr) GETPROCEXTSOFT("glGetUniformLocationARB");
-    bglGetActiveUniformARB = (bglGetActiveUniformARBProcPtr) GETPROCEXTSOFT("glGetActiveUniformARB");
-    bglGetUniformfvARB = (bglGetUniformfvARBProcPtr) GETPROCEXTSOFT("glGetUniformfvARB");
-    bglGetUniformivARB = (bglGetUniformivARBProcPtr) GETPROCEXTSOFT("glGetUniformivARB");
-    bglGetShaderSourceARB = (bglGetShaderSourceARBProcPtr) GETPROCEXTSOFT("glGetShaderSourceARB");
+    glDeleteObjectARB = (glDeleteObjectARBProcPtr) GETPROCEXTSOFT("glDeleteObjectARB");
+    glGetHandleARB = (glGetHandleARBProcPtr) GETPROCEXTSOFT("glGetHandleARB");
+    glDetachObjectARB = (glDetachObjectARBProcPtr) GETPROCEXTSOFT("glDetachObjectARB");
+    glCreateShaderObjectARB = (glCreateShaderObjectARBProcPtr) GETPROCEXTSOFT("glCreateShaderObjectARB");
+    glShaderSourceARB = (glShaderSourceARBProcPtr) GETPROCEXTSOFT("glShaderSourceARB");
+    glCompileShaderARB = (glCompileShaderARBProcPtr) GETPROCEXTSOFT("glCompileShaderARB");
+    glCreateProgramObjectARB = (glCreateProgramObjectARBProcPtr) GETPROCEXTSOFT("glCreateProgramObjectARB");
+    glAttachObjectARB = (glAttachObjectARBProcPtr) GETPROCEXTSOFT("glAttachObjectARB");
+    glLinkProgramARB = (glLinkProgramARBProcPtr) GETPROCEXTSOFT("glLinkProgramARB");
+    glUseProgramObjectARB = (glUseProgramObjectARBProcPtr) GETPROCEXTSOFT("glUseProgramObjectARB");
+    glValidateProgramARB = (glValidateProgramARBProcPtr) GETPROCEXTSOFT("glValidateProgramARB");
+    glUniform1fARB = (glUniform1fARBProcPtr) GETPROCEXTSOFT("glUniform1fARB");
+    glUniform2fARB = (glUniform2fARBProcPtr) GETPROCEXTSOFT("glUniform2fARB");
+    glUniform3fARB = (glUniform3fARBProcPtr) GETPROCEXTSOFT("glUniform3fARB");
+    glUniform4fARB = (glUniform4fARBProcPtr) GETPROCEXTSOFT("glUniform4fARB");
+    glUniform1iARB = (glUniform1iARBProcPtr) GETPROCEXTSOFT("glUniform1iARB");
+    glUniform2iARB = (glUniform2iARBProcPtr) GETPROCEXTSOFT("glUniform2iARB");
+    glUniform3iARB = (glUniform3iARBProcPtr) GETPROCEXTSOFT("glUniform3iARB");
+    glUniform4iARB = (glUniform4iARBProcPtr) GETPROCEXTSOFT("glUniform4iARB");
+    glUniform1fvARB = (glUniform1fvARBProcPtr) GETPROCEXTSOFT("glUniform1fvARB");
+    glUniform2fvARB = (glUniform2fvARBProcPtr) GETPROCEXTSOFT("glUniform2fvARB");
+    glUniform3fvARB = (glUniform3fvARBProcPtr) GETPROCEXTSOFT("glUniform3fvARB");
+    glUniform4fvARB = (glUniform4fvARBProcPtr) GETPROCEXTSOFT("glUniform4fvARB");
+    glUniform1ivARB = (glUniform1ivARBProcPtr) GETPROCEXTSOFT("glUniform1ivARB");
+    glUniform2ivARB = (glUniform2ivARBProcPtr) GETPROCEXTSOFT("glUniform2ivARB");
+    glUniform3ivARB = (glUniform3ivARBProcPtr) GETPROCEXTSOFT("glUniform3ivARB");
+    glUniform4ivARB = (glUniform4ivARBProcPtr) GETPROCEXTSOFT("glUniform4ivARB");
+    glUniformMatrix2fvARB = (glUniformMatrix2fvARBProcPtr) GETPROCEXTSOFT("glUniformMatrix2fvARB");
+    glUniformMatrix3fvARB = (glUniformMatrix3fvARBProcPtr) GETPROCEXTSOFT("glUniformMatrix3fvARB");
+    glUniformMatrix4fvARB = (glUniformMatrix4fvARBProcPtr) GETPROCEXTSOFT("glUniformMatrix4fvARB");
+    glGetObjectParameterfvARB = (glGetObjectParameterfvARBProcPtr) GETPROCEXTSOFT("glGetObjectParameterfvARB");
+    glGetObjectParameterivARB = (glGetObjectParameterivARBProcPtr) GETPROCEXTSOFT("glGetObjectParameterivARB");
+    glGetInfoLogARB = (glGetInfoLogARBProcPtr) GETPROCEXTSOFT("glGetInfoLogARB");
+    glGetAttachedObjectsARB = (glGetAttachedObjectsARBProcPtr) GETPROCEXTSOFT("glGetAttachedObjectsARB");
+    glGetUniformLocationARB = (glGetUniformLocationARBProcPtr) GETPROCEXTSOFT("glGetUniformLocationARB");
+    glGetActiveUniformARB = (glGetActiveUniformARBProcPtr) GETPROCEXTSOFT("glGetActiveUniformARB");
+    glGetUniformfvARB = (glGetUniformfvARBProcPtr) GETPROCEXTSOFT("glGetUniformfvARB");
+    glGetUniformivARB = (glGetUniformivARBProcPtr) GETPROCEXTSOFT("glGetUniformivARB");
+    glGetShaderSourceARB = (glGetShaderSourceARBProcPtr) GETPROCEXTSOFT("glGetShaderSourceARB");
 
     // Vertex Shaders
-    bglVertexAttrib1dARB = (bglVertexAttrib1dARBProcPtr) GETPROCEXTSOFT("glVertexAttrib1dARB");
-    bglVertexAttrib1dvARB = (bglVertexAttrib1dvARBProcPtr) GETPROCEXTSOFT("glVertexAttrib1dvARB");
-    bglVertexAttrib1fARB = (bglVertexAttrib1fARBProcPtr) GETPROCEXTSOFT("glVertexAttrib1fARB");
-    bglVertexAttrib1fvARB = (bglVertexAttrib1fvARBProcPtr) GETPROCEXTSOFT("glVertexAttrib1fvARB");
-    bglVertexAttrib1sARB = (bglVertexAttrib1sARBProcPtr) GETPROCEXTSOFT("glVertexAttrib1sARB");
-    bglVertexAttrib1svARB = (bglVertexAttrib1svARBProcPtr) GETPROCEXTSOFT("glVertexAttrib1svARB");
-    bglVertexAttrib2dARB = (bglVertexAttrib2dARBProcPtr) GETPROCEXTSOFT("glVertexAttrib2dARB");
-    bglVertexAttrib2dvARB = (bglVertexAttrib2dvARBProcPtr) GETPROCEXTSOFT("glVertexAttrib2dvARB");
-    bglVertexAttrib2fARB = (bglVertexAttrib2fARBProcPtr) GETPROCEXTSOFT("glVertexAttrib2fARB");
-    bglVertexAttrib2fvARB = (bglVertexAttrib2fvARBProcPtr) GETPROCEXTSOFT("glVertexAttrib2fvARB");
-    bglVertexAttrib2sARB = (bglVertexAttrib2sARBProcPtr) GETPROCEXTSOFT("glVertexAttrib2sARB");
-    bglVertexAttrib2svARB = (bglVertexAttrib2svARBProcPtr) GETPROCEXTSOFT("glVertexAttrib2svARB");
-    bglVertexAttrib3dARB = (bglVertexAttrib3dARBProcPtr) GETPROCEXTSOFT("glVertexAttrib3dARB");
-    bglVertexAttrib3dvARB = (bglVertexAttrib3dvARBProcPtr) GETPROCEXTSOFT("glVertexAttrib3dvARB");
-    bglVertexAttrib3fARB = (bglVertexAttrib3fARBProcPtr) GETPROCEXTSOFT("glVertexAttrib3fARB");
-    bglVertexAttrib3fvARB = (bglVertexAttrib3fvARBProcPtr) GETPROCEXTSOFT("glVertexAttrib3fvARB");
-    bglVertexAttrib3sARB = (bglVertexAttrib3sARBProcPtr) GETPROCEXTSOFT("glVertexAttrib3sARB");
-    bglVertexAttrib3svARB = (bglVertexAttrib3svARBProcPtr) GETPROCEXTSOFT("glVertexAttrib3svARB");
-    bglVertexAttrib4NbvARB = (bglVertexAttrib4NbvARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4NbvARB");
-    bglVertexAttrib4NivARB = (bglVertexAttrib4NivARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4NivARB");
-    bglVertexAttrib4NsvARB = (bglVertexAttrib4NsvARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4NsvARB");
-    bglVertexAttrib4NubARB = (bglVertexAttrib4NubARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4NubARB");
-    bglVertexAttrib4NubvARB = (bglVertexAttrib4NubvARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4NubvARB");
-    bglVertexAttrib4NuivARB = (bglVertexAttrib4NuivARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4NuivARB");
-    bglVertexAttrib4NusvARB = (bglVertexAttrib4NusvARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4NusvARB");
-    bglVertexAttrib4bvARB = (bglVertexAttrib4bvARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4bvARB");
-    bglVertexAttrib4dARB = (bglVertexAttrib4dARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4dARB");
-    bglVertexAttrib4dvARB = (bglVertexAttrib4dvARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4dvARB");
-    bglVertexAttrib4fARB = (bglVertexAttrib4fARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4fARB");
-    bglVertexAttrib4fvARB = (bglVertexAttrib4fvARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4fvARB");
-    bglVertexAttrib4ivARB = (bglVertexAttrib4ivARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4ivARB");
-    bglVertexAttrib4sARB = (bglVertexAttrib4sARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4sARB");
-    bglVertexAttrib4svARB = (bglVertexAttrib4svARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4svARB");
-    bglVertexAttrib4ubvARB = (bglVertexAttrib4ubvARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4ubvARB");
-    bglVertexAttrib4uivARB = (bglVertexAttrib4uivARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4uivARB");
-    bglVertexAttrib4usvARB = (bglVertexAttrib4usvARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4usvARB");
-    bglVertexAttribPointerARB = (bglVertexAttribPointerARBProcPtr) GETPROCEXTSOFT("glVertexAttribPointerARB");
-    bglEnableVertexAttribArrayARB = (bglEnableVertexAttribArrayARBProcPtr) GETPROCEXTSOFT("glEnableVertexAttribArrayARB");
-    bglDisableVertexAttribArrayARB = (bglDisableVertexAttribArrayARBProcPtr) GETPROCEXTSOFT("glDisableVertexAttribArrayARB");
-    bglGetVertexAttribdvARB = (bglGetVertexAttribdvARBProcPtr) GETPROCEXTSOFT("glGetVertexAttribdvARB");
-    bglGetVertexAttribfvARB = (bglGetVertexAttribfvARBProcPtr) GETPROCEXTSOFT("glGetVertexAttribfvARB");
-    bglGetVertexAttribivARB = (bglGetVertexAttribivARBProcPtr) GETPROCEXTSOFT("glGetVertexAttribivARB");
-    bglGetVertexAttribPointervARB = (bglGetVertexAttribPointervARBProcPtr) GETPROCEXTSOFT("glGetVertexAttribPointervARB");
-    bglBindAttribLocationARB = (bglBindAttribLocationARBProcPtr) GETPROCEXTSOFT("glBindAttribLocationARB");
-    bglGetActiveAttribARB = (bglGetActiveAttribARBProcPtr) GETPROCEXTSOFT("glGetActiveAttribARB");
-    bglGetAttribLocationARB = (bglGetAttribLocationARBProcPtr) GETPROCEXTSOFT("glGetAttribLocationARB");
+    glVertexAttrib1dARB = (glVertexAttrib1dARBProcPtr) GETPROCEXTSOFT("glVertexAttrib1dARB");
+    glVertexAttrib1dvARB = (glVertexAttrib1dvARBProcPtr) GETPROCEXTSOFT("glVertexAttrib1dvARB");
+    glVertexAttrib1fARB = (glVertexAttrib1fARBProcPtr) GETPROCEXTSOFT("glVertexAttrib1fARB");
+    glVertexAttrib1fvARB = (glVertexAttrib1fvARBProcPtr) GETPROCEXTSOFT("glVertexAttrib1fvARB");
+    glVertexAttrib1sARB = (glVertexAttrib1sARBProcPtr) GETPROCEXTSOFT("glVertexAttrib1sARB");
+    glVertexAttrib1svARB = (glVertexAttrib1svARBProcPtr) GETPROCEXTSOFT("glVertexAttrib1svARB");
+    glVertexAttrib2dARB = (glVertexAttrib2dARBProcPtr) GETPROCEXTSOFT("glVertexAttrib2dARB");
+    glVertexAttrib2dvARB = (glVertexAttrib2dvARBProcPtr) GETPROCEXTSOFT("glVertexAttrib2dvARB");
+    glVertexAttrib2fARB = (glVertexAttrib2fARBProcPtr) GETPROCEXTSOFT("glVertexAttrib2fARB");
+    glVertexAttrib2fvARB = (glVertexAttrib2fvARBProcPtr) GETPROCEXTSOFT("glVertexAttrib2fvARB");
+    glVertexAttrib2sARB = (glVertexAttrib2sARBProcPtr) GETPROCEXTSOFT("glVertexAttrib2sARB");
+    glVertexAttrib2svARB = (glVertexAttrib2svARBProcPtr) GETPROCEXTSOFT("glVertexAttrib2svARB");
+    glVertexAttrib3dARB = (glVertexAttrib3dARBProcPtr) GETPROCEXTSOFT("glVertexAttrib3dARB");
+    glVertexAttrib3dvARB = (glVertexAttrib3dvARBProcPtr) GETPROCEXTSOFT("glVertexAttrib3dvARB");
+    glVertexAttrib3fARB = (glVertexAttrib3fARBProcPtr) GETPROCEXTSOFT("glVertexAttrib3fARB");
+    glVertexAttrib3fvARB = (glVertexAttrib3fvARBProcPtr) GETPROCEXTSOFT("glVertexAttrib3fvARB");
+    glVertexAttrib3sARB = (glVertexAttrib3sARBProcPtr) GETPROCEXTSOFT("glVertexAttrib3sARB");
+    glVertexAttrib3svARB = (glVertexAttrib3svARBProcPtr) GETPROCEXTSOFT("glVertexAttrib3svARB");
+    glVertexAttrib4NbvARB = (glVertexAttrib4NbvARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4NbvARB");
+    glVertexAttrib4NivARB = (glVertexAttrib4NivARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4NivARB");
+    glVertexAttrib4NsvARB = (glVertexAttrib4NsvARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4NsvARB");
+    glVertexAttrib4NubARB = (glVertexAttrib4NubARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4NubARB");
+    glVertexAttrib4NubvARB = (glVertexAttrib4NubvARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4NubvARB");
+    glVertexAttrib4NuivARB = (glVertexAttrib4NuivARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4NuivARB");
+    glVertexAttrib4NusvARB = (glVertexAttrib4NusvARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4NusvARB");
+    glVertexAttrib4bvARB = (glVertexAttrib4bvARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4bvARB");
+    glVertexAttrib4dARB = (glVertexAttrib4dARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4dARB");
+    glVertexAttrib4dvARB = (glVertexAttrib4dvARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4dvARB");
+    glVertexAttrib4fARB = (glVertexAttrib4fARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4fARB");
+    glVertexAttrib4fvARB = (glVertexAttrib4fvARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4fvARB");
+    glVertexAttrib4ivARB = (glVertexAttrib4ivARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4ivARB");
+    glVertexAttrib4sARB = (glVertexAttrib4sARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4sARB");
+    glVertexAttrib4svARB = (glVertexAttrib4svARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4svARB");
+    glVertexAttrib4ubvARB = (glVertexAttrib4ubvARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4ubvARB");
+    glVertexAttrib4uivARB = (glVertexAttrib4uivARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4uivARB");
+    glVertexAttrib4usvARB = (glVertexAttrib4usvARBProcPtr) GETPROCEXTSOFT("glVertexAttrib4usvARB");
+    glVertexAttribPointerARB = (glVertexAttribPointerARBProcPtr) GETPROCEXTSOFT("glVertexAttribPointerARB");
+    glEnableVertexAttribArrayARB = (glEnableVertexAttribArrayARBProcPtr) GETPROCEXTSOFT("glEnableVertexAttribArrayARB");
+    glDisableVertexAttribArrayARB = (glDisableVertexAttribArrayARBProcPtr) GETPROCEXTSOFT("glDisableVertexAttribArrayARB");
+    glGetVertexAttribdvARB = (glGetVertexAttribdvARBProcPtr) GETPROCEXTSOFT("glGetVertexAttribdvARB");
+    glGetVertexAttribfvARB = (glGetVertexAttribfvARBProcPtr) GETPROCEXTSOFT("glGetVertexAttribfvARB");
+    glGetVertexAttribivARB = (glGetVertexAttribivARBProcPtr) GETPROCEXTSOFT("glGetVertexAttribivARB");
+    glGetVertexAttribPointervARB = (glGetVertexAttribPointervARBProcPtr) GETPROCEXTSOFT("glGetVertexAttribPointervARB");
+    glBindAttribLocationARB = (glBindAttribLocationARBProcPtr) GETPROCEXTSOFT("glBindAttribLocationARB");
+    glGetActiveAttribARB = (glGetActiveAttribARBProcPtr) GETPROCEXTSOFT("glGetActiveAttribARB");
+    glGetAttribLocationARB = (glGetAttribLocationARBProcPtr) GETPROCEXTSOFT("glGetAttribLocationARB");
 
     // Debug Output
 #ifndef __APPLE__
-    bglDebugMessageControlARB = (bglDebugMessageControlARBProcPtr) GETPROCEXTSOFT("glDebugMessageControlARB");
-    bglDebugMessageCallbackARB = (bglDebugMessageCallbackARBProcPtr) GETPROCEXTSOFT("glDebugMessageCallbackARB");
+    glDebugMessageControlARB = (glDebugMessageControlARBProcPtr) GETPROCEXTSOFT("glDebugMessageControlARB");
+    glDebugMessageCallbackARB = (glDebugMessageCallbackARBProcPtr) GETPROCEXTSOFT("glDebugMessageCallbackARB");
 #endif
 
 #ifdef _WIN32
-    bwglSwapIntervalEXT = (bwglSwapIntervalEXTProcPtr) GETPROCEXTSOFT("wglSwapIntervalEXT");
-    bwglCreateContextAttribsARB = (bwglCreateContextAttribsARBProcPtr) GETPROCEXTSOFT("wglCreateContextAttribsARB");
+    wglSwapIntervalEXT = (wglSwapIntervalEXTProcPtr) GETPROCEXTSOFT("wglSwapIntervalEXT");
+    wglCreateContextAttribsARB = (wglCreateContextAttribsARBProcPtr) GETPROCEXTSOFT("wglCreateContextAttribsARB");
 #endif
 
     // the following ARB functions are used in POLYMER=0 builds:
@@ -725,8 +725,6 @@ int32_t loadglextensions(void)
 
 int32_t unloadgldriver(void)
 {
-    unloadglulibrary();
-
 #if defined DYNAMIC_GL || defined DYNAMIC_GLEXT
 #if !defined RENDERTYPESDL && defined _WIN32
     if (!hGLDLL) return 0;
@@ -742,281 +740,281 @@ int32_t unloadgldriver(void)
 
 #if defined DYNAMIC_GL
 #ifdef _WIN32
-    bwglCreateContext = (bwglCreateContextProcPtr) NULL;
-    bwglDeleteContext = (bwglDeleteContextProcPtr) NULL;
-    bwglGetProcAddress = (bwglGetProcAddressProcPtr) NULL;
-    bwglMakeCurrent = (bwglMakeCurrentProcPtr) NULL;
+    wglCreateContext = (wglCreateContextProcPtr) NULL;
+    wglDeleteContext = (wglDeleteContextProcPtr) NULL;
+    wglGetProcAddress = (wglGetProcAddressProcPtr) NULL;
+    wglMakeCurrent = (wglMakeCurrentProcPtr) NULL;
 
-    bwglSwapBuffers = (bwglSwapBuffersProcPtr) NULL;
-    bwglChoosePixelFormat = (bwglChoosePixelFormatProcPtr) NULL;
-    bwglDescribePixelFormat = (bwglDescribePixelFormatProcPtr) NULL;
-    bwglGetPixelFormat = (bwglGetPixelFormatProcPtr) NULL;
-    bwglSetPixelFormat = (bwglSetPixelFormatProcPtr) NULL;
+    wglSwapBuffers = (wglSwapBuffersProcPtr) NULL;
+    wglChoosePixelFormat = (wglChoosePixelFormatProcPtr) NULL;
+    wglDescribePixelFormat = (wglDescribePixelFormatProcPtr) NULL;
+    wglGetPixelFormat = (wglGetPixelFormatProcPtr) NULL;
+    wglSetPixelFormat = (wglSetPixelFormatProcPtr) NULL;
 #endif
 
-    bglClearColor = (bglClearColorProcPtr) NULL;
-    bglClear = (bglClearProcPtr) NULL;
-    bglColorMask = (bglColorMaskProcPtr) NULL;
-    bglAlphaFunc = (bglAlphaFuncProcPtr) NULL;
-    bglBlendFunc = (bglBlendFuncProcPtr) NULL;
-    bglCullFace = (bglCullFaceProcPtr) NULL;
-    bglFrontFace = (bglFrontFaceProcPtr) NULL;
-    bglPolygonOffset = (bglPolygonOffsetProcPtr) NULL;
-    bglPolygonMode = (bglPolygonModeProcPtr) NULL;
-    bglEnable = (bglEnableProcPtr) NULL;
-    bglDisable = (bglDisableProcPtr) NULL;
-    bglGetDoublev = (bglGetDoublevProcPtr) NULL;
-    bglGetFloatv = (bglGetFloatvProcPtr) NULL;
-    bglGetIntegerv = (bglGetIntegervProcPtr) NULL;
-    bglPushAttrib = (bglPushAttribProcPtr) NULL;
-    bglPopAttrib = (bglPopAttribProcPtr) NULL;
-    bglGetError = (bglGetErrorProcPtr) NULL;
-    bglGetString = (bglGetStringProcPtr) NULL;
-    bglHint = (bglHintProcPtr) NULL;
-    bglDrawBuffer = (bglDrawBufferProcPtr) NULL;
-    bglReadBuffer = (bglReadBufferProcPtr) NULL;
-    bglScissor = (bglScissorProcPtr) NULL;
-    bglClipPlane = (bglClipPlaneProcPtr) NULL;
+    glClearColor = (glClearColorProcPtr) NULL;
+    glClear = (glClearProcPtr) NULL;
+    glColorMask = (glColorMaskProcPtr) NULL;
+    glAlphaFunc = (glAlphaFuncProcPtr) NULL;
+    glBlendFunc = (glBlendFuncProcPtr) NULL;
+    glCullFace = (glCullFaceProcPtr) NULL;
+    glFrontFace = (glFrontFaceProcPtr) NULL;
+    glPolygonOffset = (glPolygonOffsetProcPtr) NULL;
+    glPolygonMode = (glPolygonModeProcPtr) NULL;
+    glEnable = (glEnableProcPtr) NULL;
+    glDisable = (glDisableProcPtr) NULL;
+    glGetDoublev = (glGetDoublevProcPtr) NULL;
+    glGetFloatv = (glGetFloatvProcPtr) NULL;
+    glGetIntegerv = (glGetIntegervProcPtr) NULL;
+    glPushAttrib = (glPushAttribProcPtr) NULL;
+    glPopAttrib = (glPopAttribProcPtr) NULL;
+    glGetError = (glGetErrorProcPtr) NULL;
+    glGetString = (glGetStringProcPtr) NULL;
+    glHint = (glHintProcPtr) NULL;
+    glDrawBuffer = (glDrawBufferProcPtr) NULL;
+    glReadBuffer = (glReadBufferProcPtr) NULL;
+    glScissor = (glScissorProcPtr) NULL;
+    glClipPlane = (glClipPlaneProcPtr) NULL;
 
     // Depth
-    bglDepthFunc = (bglDepthFuncProcPtr) NULL;
-    bglDepthMask = (bglDepthMaskProcPtr) NULL;
-//    bglDepthRange = (bglDepthRangeProcPtr) NULL;
+    glDepthFunc = (glDepthFuncProcPtr) NULL;
+    glDepthMask = (glDepthMaskProcPtr) NULL;
+//    glDepthRange = (glDepthRangeProcPtr) NULL;
 
     // Matrix
-    bglMatrixMode = (bglMatrixModeProcPtr) NULL;
-    bglOrtho = (bglOrthoProcPtr) NULL;
-    bglFrustum = (bglFrustumProcPtr) NULL;
-    bglViewport = (bglViewportProcPtr) NULL;
-    bglPushMatrix = (bglPushMatrixProcPtr) NULL;
-    bglPopMatrix = (bglPopMatrixProcPtr) NULL;
-    bglLoadIdentity = (bglLoadIdentityProcPtr) NULL;
-    bglLoadMatrixf = (bglLoadMatrixfProcPtr) NULL;
-    bglLoadMatrixd = (bglLoadMatrixdProcPtr) NULL;
-    bglMultMatrixf = (bglMultMatrixfProcPtr) NULL;
-    bglMultMatrixd = (bglMultMatrixdProcPtr) NULL;
-    bglRotatef = (bglRotatefProcPtr) NULL;
-    bglScalef = (bglScalefProcPtr) NULL;
-    bglTranslatef = (bglTranslatefProcPtr) NULL;
+    glMatrixMode = (glMatrixModeProcPtr) NULL;
+    glOrtho = (glOrthoProcPtr) NULL;
+    glFrustum = (glFrustumProcPtr) NULL;
+    glViewport = (glViewportProcPtr) NULL;
+    glPushMatrix = (glPushMatrixProcPtr) NULL;
+    glPopMatrix = (glPopMatrixProcPtr) NULL;
+    glLoadIdentity = (glLoadIdentityProcPtr) NULL;
+    glLoadMatrixf = (glLoadMatrixfProcPtr) NULL;
+    glLoadMatrixd = (glLoadMatrixdProcPtr) NULL;
+    glMultMatrixf = (glMultMatrixfProcPtr) NULL;
+    glMultMatrixd = (glMultMatrixdProcPtr) NULL;
+    glRotatef = (glRotatefProcPtr) NULL;
+    glScalef = (glScalefProcPtr) NULL;
+    glTranslatef = (glTranslatefProcPtr) NULL;
 
     // Drawing
-    bglBegin = (bglBeginProcPtr) NULL;
-    bglEnd = (bglEndProcPtr) NULL;
-    bglVertex2f = (bglVertex2fProcPtr) NULL;
-    bglVertex2i = (bglVertex2iProcPtr) NULL;
-    bglVertex3f = (bglVertex3fProcPtr) NULL;
-    bglVertex3d = (bglVertex3dProcPtr) NULL;
-    bglVertex3fv = (bglVertex3fvProcPtr) NULL;
-    bglVertex3dv = (bglVertex3dvProcPtr) NULL;
-    bglRecti = (bglRectiProcPtr) NULL;
-    bglColor3f = (bglColor3fProcPtr) NULL;
-    bglColor4f = (bglColor4fProcPtr) NULL;
-    bglColor4ub = (bglColor4ubProcPtr) NULL;
-    bglTexCoord2d = (bglTexCoord2dProcPtr) NULL;
-    bglTexCoord2f = (bglTexCoord2fProcPtr) NULL;
-    bglTexCoord2i = (bglTexCoord2iProcPtr) NULL;
-    bglNormal3f = (bglNormal3fProcPtr) NULL;
+    glBegin = (glBeginProcPtr) NULL;
+    glEnd = (glEndProcPtr) NULL;
+    glVertex2f = (glVertex2fProcPtr) NULL;
+    glVertex2i = (glVertex2iProcPtr) NULL;
+    glVertex3f = (glVertex3fProcPtr) NULL;
+    glVertex3d = (glVertex3dProcPtr) NULL;
+    glVertex3fv = (glVertex3fvProcPtr) NULL;
+    glVertex3dv = (glVertex3dvProcPtr) NULL;
+    glRecti = (glRectiProcPtr) NULL;
+    glColor3f = (glColor3fProcPtr) NULL;
+    glColor4f = (glColor4fProcPtr) NULL;
+    glColor4ub = (glColor4ubProcPtr) NULL;
+    glTexCoord2d = (glTexCoord2dProcPtr) NULL;
+    glTexCoord2f = (glTexCoord2fProcPtr) NULL;
+    glTexCoord2i = (glTexCoord2iProcPtr) NULL;
+    glNormal3f = (glNormal3fProcPtr) NULL;
 
     // Lighting
-    bglShadeModel = (bglShadeModelProcPtr) NULL;
-    bglLightfv = (bglLightfvProcPtr) NULL;
+    glShadeModel = (glShadeModelProcPtr) NULL;
+    glLightfv = (glLightfvProcPtr) NULL;
 
     // Raster funcs
-    bglReadPixels = (bglReadPixelsProcPtr) NULL;
-    bglRasterPos4i = (bglRasterPos4iProcPtr) NULL;
-    bglDrawPixels = (bglDrawPixelsProcPtr) NULL;
-    bglPixelStorei = (bglPixelStoreiProcPtr) NULL;
+    glReadPixels = (glReadPixelsProcPtr) NULL;
+    glRasterPos4i = (glRasterPos4iProcPtr) NULL;
+    glDrawPixels = (glDrawPixelsProcPtr) NULL;
+    glPixelStorei = (glPixelStoreiProcPtr) NULL;
 
     // Texture mapping
-    bglTexEnvf = (bglTexEnvfProcPtr) NULL;
-    bglGenTextures = (bglGenTexturesProcPtr) NULL;
-    bglDeleteTextures = (bglDeleteTexturesProcPtr) NULL;
-    bglBindTexture = (bglBindTextureProcPtr) NULL;
-    bglTexImage2D = (bglTexImage2DProcPtr) NULL;
-    bglCopyTexImage2D = (bglCopyTexImage2DProcPtr) NULL;
-    bglCopyTexSubImage2D = (bglCopyTexSubImage2DProcPtr) NULL;
-    bglTexSubImage2D = (bglTexSubImage2DProcPtr) NULL;
-    bglTexParameterf = (bglTexParameterfProcPtr) NULL;
-    bglTexParameteri = (bglTexParameteriProcPtr) NULL;
-    bglGetTexParameteriv = (bglGetTexParameterivProcPtr) NULL;
-    bglGetTexLevelParameteriv = (bglGetTexLevelParameterivProcPtr) NULL;
-    bglTexGenfv = (bglTexGenfvProcPtr) NULL;
+    glTexEnvf = (glTexEnvfProcPtr) NULL;
+    glGenTextures = (glGenTexturesProcPtr) NULL;
+    glDeleteTextures = (glDeleteTexturesProcPtr) NULL;
+    glBindTexture = (glBindTextureProcPtr) NULL;
+    glTexImage2D = (glTexImage2DProcPtr) NULL;
+    glCopyTexImage2D = (glCopyTexImage2DProcPtr) NULL;
+    glCopyTexSubImage2D = (glCopyTexSubImage2DProcPtr) NULL;
+    glTexSubImage2D = (glTexSubImage2DProcPtr) NULL;
+    glTexParameterf = (glTexParameterfProcPtr) NULL;
+    glTexParameteri = (glTexParameteriProcPtr) NULL;
+    glGetTexParameteriv = (glGetTexParameterivProcPtr) NULL;
+    glGetTexLevelParameteriv = (glGetTexLevelParameterivProcPtr) NULL;
+    glTexGenfv = (glTexGenfvProcPtr) NULL;
 
     // Fog
-    bglFogf = (bglFogfProcPtr) NULL;
-    bglFogi = (bglFogiProcPtr) NULL;
-    bglFogfv = (bglFogfvProcPtr) NULL;
+    glFogf = (glFogfProcPtr) NULL;
+    glFogi = (glFogiProcPtr) NULL;
+    glFogfv = (glFogfvProcPtr) NULL;
 
     // Display Lists
-    bglNewList = (bglNewListProcPtr) NULL;
-    bglEndList = (bglEndListProcPtr) NULL;
-    bglCallList = (bglCallListProcPtr) NULL;
-    bglDeleteLists = (bglDeleteListsProcPtr) NULL;
+    glNewList = (glNewListProcPtr) NULL;
+    glEndList = (glEndListProcPtr) NULL;
+    glCallList = (glCallListProcPtr) NULL;
+    glDeleteLists = (glDeleteListsProcPtr) NULL;
 
     // Vertex Arrays
-    bglEnableClientState = (bglEnableClientStateProcPtr) NULL;
-    bglDisableClientState = (bglDisableClientStateProcPtr) NULL;
-    bglVertexPointer = (bglVertexPointerProcPtr) NULL;
-    bglNormalPointer = (bglNormalPointerProcPtr) NULL;
-    bglTexCoordPointer = (bglTexCoordPointerProcPtr) NULL;
-    bglDrawArrays = (bglDrawArraysProcPtr) NULL;
-    bglDrawElements = (bglDrawElementsProcPtr) NULL;
+    glEnableClientState = (glEnableClientStateProcPtr) NULL;
+    glDisableClientState = (glDisableClientStateProcPtr) NULL;
+    glVertexPointer = (glVertexPointerProcPtr) NULL;
+    glNormalPointer = (glNormalPointerProcPtr) NULL;
+    glTexCoordPointer = (glTexCoordPointerProcPtr) NULL;
+    glDrawArrays = (glDrawArraysProcPtr) NULL;
+    glDrawElements = (glDrawElementsProcPtr) NULL;
 
     // Stencil Buffer
-    bglClearStencil = (bglClearStencilProcPtr) NULL;
-    bglStencilOp = (bglStencilOpProcPtr) NULL;
-    bglStencilFunc = (bglStencilFuncProcPtr) NULL;
+    glClearStencil = (glClearStencilProcPtr) NULL;
+    glStencilOp = (glStencilOpProcPtr) NULL;
+    glStencilFunc = (glStencilFuncProcPtr) NULL;
 #endif
 
 #if defined DYNAMIC_GLEXT
-    bglBlendEquation = (bglBlendEquationProcPtr) NULL;
+    glBlendEquation = (glBlendEquationProcPtr) NULL;
 
-    bglTexImage3D = (bglTexImage3DProcPtr) NULL;
-    bglCompressedTexImage2DARB = (bglCompressedTexImage2DARBProcPtr) NULL;
-    bglGetCompressedTexImageARB = (bglGetCompressedTexImageARBProcPtr) NULL;
+    glTexImage3D = (glTexImage3DProcPtr) NULL;
+    glCompressedTexImage2DARB = (glCompressedTexImage2DARBProcPtr) NULL;
+    glGetCompressedTexImageARB = (glGetCompressedTexImageARBProcPtr) NULL;
 
     // GPU Programs
-    bglGenProgramsARB = (bglGenProgramsARBProcPtr) NULL;
-    bglBindProgramARB = (bglBindProgramARBProcPtr) NULL;
-    bglProgramStringARB = (bglProgramStringARBProcPtr) NULL;
-    bglDeleteProgramsARB = (bglDeleteProgramsARBProcPtr) NULL;
+    glGenProgramsARB = (glGenProgramsARBProcPtr) NULL;
+    glBindProgramARB = (glBindProgramARBProcPtr) NULL;
+    glProgramStringARB = (glProgramStringARBProcPtr) NULL;
+    glDeleteProgramsARB = (glDeleteProgramsARBProcPtr) NULL;
 
     // Multitexturing
-    bglActiveTextureARB = (bglActiveTextureARBProcPtr) NULL;
-    bglClientActiveTextureARB = (bglClientActiveTextureARBProcPtr) NULL;
-    bglMultiTexCoord2dARB = (bglMultiTexCoord2dARBProcPtr) NULL;
-    bglMultiTexCoord2fARB = (bglMultiTexCoord2fARBProcPtr) NULL;
+    glActiveTextureARB = (glActiveTextureARBProcPtr) NULL;
+    glClientActiveTextureARB = (glClientActiveTextureARBProcPtr) NULL;
+    glMultiTexCoord2dARB = (glMultiTexCoord2dARBProcPtr) NULL;
+    glMultiTexCoord2fARB = (glMultiTexCoord2fARBProcPtr) NULL;
 
     // Frame Buffer Objects
-    bglGenFramebuffersEXT = (bglGenFramebuffersEXTProcPtr) NULL;
-    bglBindFramebufferEXT = (bglBindFramebufferEXTProcPtr) NULL;
-    bglFramebufferTexture2DEXT = (bglFramebufferTexture2DEXTProcPtr) NULL;
-    bglCheckFramebufferStatusEXT = (bglCheckFramebufferStatusEXTProcPtr) NULL;
-    bglDeleteFramebuffersEXT = (bglDeleteFramebuffersEXTProcPtr) NULL;
+    glGenFramebuffersEXT = (glGenFramebuffersEXTProcPtr) NULL;
+    glBindFramebufferEXT = (glBindFramebufferEXTProcPtr) NULL;
+    glFramebufferTexture2DEXT = (glFramebufferTexture2DEXTProcPtr) NULL;
+    glCheckFramebufferStatusEXT = (glCheckFramebufferStatusEXTProcPtr) NULL;
+    glDeleteFramebuffersEXT = (glDeleteFramebuffersEXTProcPtr) NULL;
 
     // Vertex Buffer Objects
-    bglGenBuffersARB = (bglGenBuffersARBProcPtr) NULL;
-    bglBindBufferARB = (bglBindBufferARBProcPtr) NULL;
-    bglDeleteBuffersARB = (bglDeleteBuffersARBProcPtr) NULL;
-    bglBufferDataARB = (bglBufferDataARBProcPtr) NULL;
-    bglBufferSubDataARB = (bglBufferSubDataARBProcPtr) NULL;
-    bglMapBufferARB = (bglMapBufferARBProcPtr) NULL;
-    bglUnmapBufferARB = (bglUnmapBufferARBProcPtr) NULL;
+    glGenBuffersARB = (glGenBuffersARBProcPtr) NULL;
+    glBindBufferARB = (glBindBufferARBProcPtr) NULL;
+    glDeleteBuffersARB = (glDeleteBuffersARBProcPtr) NULL;
+    glBufferDataARB = (glBufferDataARBProcPtr) NULL;
+    glBufferSubDataARB = (glBufferSubDataARBProcPtr) NULL;
+    glMapBufferARB = (glMapBufferARBProcPtr) NULL;
+    glUnmapBufferARB = (glUnmapBufferARBProcPtr) NULL;
 
     // ARB_buffer_storage
-    bglBufferStorage = (bglBufferStorageProcPtr) NULL;
+    glBufferStorage = (glBufferStorageProcPtr) NULL;
 
     // ARB_map_buffer_range
-    bglMapBufferRange = (bglMapBufferRangeProcPtr)NULL;
+    glMapBufferRange = (glMapBufferRangeProcPtr)NULL;
 
     // Occlusion queries
-    bglGenQueriesARB = (bglGenQueriesARBProcPtr) NULL;
-    bglDeleteQueriesARB = (bglDeleteQueriesARBProcPtr) NULL;
-    bglIsQueryARB = (bglIsQueryARBProcPtr) NULL;
-    bglBeginQueryARB = (bglBeginQueryARBProcPtr) NULL;
-    bglEndQueryARB = (bglEndQueryARBProcPtr) NULL;
-    bglGetQueryivARB = (bglGetQueryivARBProcPtr) NULL;
-    bglGetQueryObjectivARB = (bglGetQueryObjectivARBProcPtr) NULL;
-    bglGetQueryObjectuivARB = (bglGetQueryObjectuivARBProcPtr) NULL;
+    glGenQueriesARB = (glGenQueriesARBProcPtr) NULL;
+    glDeleteQueriesARB = (glDeleteQueriesARBProcPtr) NULL;
+    glIsQueryARB = (glIsQueryARBProcPtr) NULL;
+    glBeginQueryARB = (glBeginQueryARBProcPtr) NULL;
+    glEndQueryARB = (glEndQueryARBProcPtr) NULL;
+    glGetQueryivARB = (glGetQueryivARBProcPtr) NULL;
+    glGetQueryObjectivARB = (glGetQueryObjectivARBProcPtr) NULL;
+    glGetQueryObjectuivARB = (glGetQueryObjectuivARBProcPtr) NULL;
 
     // Shader Objects
-    bglDeleteObjectARB = (bglDeleteObjectARBProcPtr) NULL;
-    bglGetHandleARB = (bglGetHandleARBProcPtr) NULL;
-    bglDetachObjectARB = (bglDetachObjectARBProcPtr) NULL;
-    bglCreateShaderObjectARB = (bglCreateShaderObjectARBProcPtr) NULL;
-    bglShaderSourceARB = (bglShaderSourceARBProcPtr) NULL;
-    bglCompileShaderARB = (bglCompileShaderARBProcPtr) NULL;
-    bglCreateProgramObjectARB = (bglCreateProgramObjectARBProcPtr) NULL;
-    bglAttachObjectARB = (bglAttachObjectARBProcPtr) NULL;
-    bglLinkProgramARB = (bglLinkProgramARBProcPtr) NULL;
-    bglUseProgramObjectARB = (bglUseProgramObjectARBProcPtr) NULL;
-    bglValidateProgramARB = (bglValidateProgramARBProcPtr) NULL;
-    bglUniform1fARB = (bglUniform1fARBProcPtr) NULL;
-    bglUniform2fARB = (bglUniform2fARBProcPtr) NULL;
-    bglUniform3fARB = (bglUniform3fARBProcPtr) NULL;
-    bglUniform4fARB = (bglUniform4fARBProcPtr) NULL;
-    bglUniform1iARB = (bglUniform1iARBProcPtr) NULL;
-    bglUniform2iARB = (bglUniform2iARBProcPtr) NULL;
-    bglUniform3iARB = (bglUniform3iARBProcPtr) NULL;
-    bglUniform4iARB = (bglUniform4iARBProcPtr) NULL;
-    bglUniform1fvARB = (bglUniform1fvARBProcPtr) NULL;
-    bglUniform2fvARB = (bglUniform2fvARBProcPtr) NULL;
-    bglUniform3fvARB = (bglUniform3fvARBProcPtr) NULL;
-    bglUniform4fvARB = (bglUniform4fvARBProcPtr) NULL;
-    bglUniform1ivARB = (bglUniform1ivARBProcPtr) NULL;
-    bglUniform2ivARB = (bglUniform2ivARBProcPtr) NULL;
-    bglUniform3ivARB = (bglUniform3ivARBProcPtr) NULL;
-    bglUniform4ivARB = (bglUniform4ivARBProcPtr) NULL;
-    bglUniformMatrix2fvARB = (bglUniformMatrix2fvARBProcPtr) NULL;
-    bglUniformMatrix3fvARB = (bglUniformMatrix3fvARBProcPtr) NULL;
-    bglUniformMatrix4fvARB = (bglUniformMatrix4fvARBProcPtr) NULL;
-    bglGetObjectParameterfvARB = (bglGetObjectParameterfvARBProcPtr) NULL;
-    bglGetObjectParameterivARB = (bglGetObjectParameterivARBProcPtr) NULL;
-    bglGetInfoLogARB = (bglGetInfoLogARBProcPtr) NULL;
-    bglGetAttachedObjectsARB = (bglGetAttachedObjectsARBProcPtr) NULL;
-    bglGetUniformLocationARB = (bglGetUniformLocationARBProcPtr) NULL;
-    bglGetActiveUniformARB = (bglGetActiveUniformARBProcPtr) NULL;
-    bglGetUniformfvARB = (bglGetUniformfvARBProcPtr) NULL;
-    bglGetUniformivARB = (bglGetUniformivARBProcPtr) NULL;
-    bglGetShaderSourceARB = (bglGetShaderSourceARBProcPtr) NULL;
+    glDeleteObjectARB = (glDeleteObjectARBProcPtr) NULL;
+    glGetHandleARB = (glGetHandleARBProcPtr) NULL;
+    glDetachObjectARB = (glDetachObjectARBProcPtr) NULL;
+    glCreateShaderObjectARB = (glCreateShaderObjectARBProcPtr) NULL;
+    glShaderSourceARB = (glShaderSourceARBProcPtr) NULL;
+    glCompileShaderARB = (glCompileShaderARBProcPtr) NULL;
+    glCreateProgramObjectARB = (glCreateProgramObjectARBProcPtr) NULL;
+    glAttachObjectARB = (glAttachObjectARBProcPtr) NULL;
+    glLinkProgramARB = (glLinkProgramARBProcPtr) NULL;
+    glUseProgramObjectARB = (glUseProgramObjectARBProcPtr) NULL;
+    glValidateProgramARB = (glValidateProgramARBProcPtr) NULL;
+    glUniform1fARB = (glUniform1fARBProcPtr) NULL;
+    glUniform2fARB = (glUniform2fARBProcPtr) NULL;
+    glUniform3fARB = (glUniform3fARBProcPtr) NULL;
+    glUniform4fARB = (glUniform4fARBProcPtr) NULL;
+    glUniform1iARB = (glUniform1iARBProcPtr) NULL;
+    glUniform2iARB = (glUniform2iARBProcPtr) NULL;
+    glUniform3iARB = (glUniform3iARBProcPtr) NULL;
+    glUniform4iARB = (glUniform4iARBProcPtr) NULL;
+    glUniform1fvARB = (glUniform1fvARBProcPtr) NULL;
+    glUniform2fvARB = (glUniform2fvARBProcPtr) NULL;
+    glUniform3fvARB = (glUniform3fvARBProcPtr) NULL;
+    glUniform4fvARB = (glUniform4fvARBProcPtr) NULL;
+    glUniform1ivARB = (glUniform1ivARBProcPtr) NULL;
+    glUniform2ivARB = (glUniform2ivARBProcPtr) NULL;
+    glUniform3ivARB = (glUniform3ivARBProcPtr) NULL;
+    glUniform4ivARB = (glUniform4ivARBProcPtr) NULL;
+    glUniformMatrix2fvARB = (glUniformMatrix2fvARBProcPtr) NULL;
+    glUniformMatrix3fvARB = (glUniformMatrix3fvARBProcPtr) NULL;
+    glUniformMatrix4fvARB = (glUniformMatrix4fvARBProcPtr) NULL;
+    glGetObjectParameterfvARB = (glGetObjectParameterfvARBProcPtr) NULL;
+    glGetObjectParameterivARB = (glGetObjectParameterivARBProcPtr) NULL;
+    glGetInfoLogARB = (glGetInfoLogARBProcPtr) NULL;
+    glGetAttachedObjectsARB = (glGetAttachedObjectsARBProcPtr) NULL;
+    glGetUniformLocationARB = (glGetUniformLocationARBProcPtr) NULL;
+    glGetActiveUniformARB = (glGetActiveUniformARBProcPtr) NULL;
+    glGetUniformfvARB = (glGetUniformfvARBProcPtr) NULL;
+    glGetUniformivARB = (glGetUniformivARBProcPtr) NULL;
+    glGetShaderSourceARB = (glGetShaderSourceARBProcPtr) NULL;
 
     // Vertex Shaders
-    bglVertexAttrib1dARB = (bglVertexAttrib1dARBProcPtr) NULL;
-    bglVertexAttrib1dvARB = (bglVertexAttrib1dvARBProcPtr) NULL;
-    bglVertexAttrib1fARB = (bglVertexAttrib1fARBProcPtr) NULL;
-    bglVertexAttrib1fvARB = (bglVertexAttrib1fvARBProcPtr) NULL;
-    bglVertexAttrib1sARB = (bglVertexAttrib1sARBProcPtr) NULL;
-    bglVertexAttrib1svARB = (bglVertexAttrib1svARBProcPtr) NULL;
-    bglVertexAttrib2dARB = (bglVertexAttrib2dARBProcPtr) NULL;
-    bglVertexAttrib2dvARB = (bglVertexAttrib2dvARBProcPtr) NULL;
-    bglVertexAttrib2fARB = (bglVertexAttrib2fARBProcPtr) NULL;
-    bglVertexAttrib2fvARB = (bglVertexAttrib2fvARBProcPtr) NULL;
-    bglVertexAttrib2sARB = (bglVertexAttrib2sARBProcPtr) NULL;
-    bglVertexAttrib2svARB = (bglVertexAttrib2svARBProcPtr) NULL;
-    bglVertexAttrib3dARB = (bglVertexAttrib3dARBProcPtr) NULL;
-    bglVertexAttrib3dvARB = (bglVertexAttrib3dvARBProcPtr) NULL;
-    bglVertexAttrib3fARB = (bglVertexAttrib3fARBProcPtr) NULL;
-    bglVertexAttrib3fvARB = (bglVertexAttrib3fvARBProcPtr) NULL;
-    bglVertexAttrib3sARB = (bglVertexAttrib3sARBProcPtr) NULL;
-    bglVertexAttrib3svARB = (bglVertexAttrib3svARBProcPtr) NULL;
-    bglVertexAttrib4NbvARB = (bglVertexAttrib4NbvARBProcPtr) NULL;
-    bglVertexAttrib4NivARB = (bglVertexAttrib4NivARBProcPtr) NULL;
-    bglVertexAttrib4NsvARB = (bglVertexAttrib4NsvARBProcPtr) NULL;
-    bglVertexAttrib4NubARB = (bglVertexAttrib4NubARBProcPtr) NULL;
-    bglVertexAttrib4NubvARB = (bglVertexAttrib4NubvARBProcPtr) NULL;
-    bglVertexAttrib4NuivARB = (bglVertexAttrib4NuivARBProcPtr) NULL;
-    bglVertexAttrib4NusvARB = (bglVertexAttrib4NusvARBProcPtr) NULL;
-    bglVertexAttrib4bvARB = (bglVertexAttrib4bvARBProcPtr) NULL;
-    bglVertexAttrib4dARB = (bglVertexAttrib4dARBProcPtr) NULL;
-    bglVertexAttrib4dvARB = (bglVertexAttrib4dvARBProcPtr) NULL;
-    bglVertexAttrib4fARB = (bglVertexAttrib4fARBProcPtr) NULL;
-    bglVertexAttrib4fvARB = (bglVertexAttrib4fvARBProcPtr) NULL;
-    bglVertexAttrib4ivARB = (bglVertexAttrib4ivARBProcPtr) NULL;
-    bglVertexAttrib4sARB = (bglVertexAttrib4sARBProcPtr) NULL;
-    bglVertexAttrib4svARB = (bglVertexAttrib4svARBProcPtr) NULL;
-    bglVertexAttrib4ubvARB = (bglVertexAttrib4ubvARBProcPtr) NULL;
-    bglVertexAttrib4uivARB = (bglVertexAttrib4uivARBProcPtr) NULL;
-    bglVertexAttrib4usvARB = (bglVertexAttrib4usvARBProcPtr) NULL;
-    bglVertexAttribPointerARB = (bglVertexAttribPointerARBProcPtr) NULL;
-    bglEnableVertexAttribArrayARB = (bglEnableVertexAttribArrayARBProcPtr) NULL;
-    bglDisableVertexAttribArrayARB = (bglDisableVertexAttribArrayARBProcPtr) NULL;
-    bglGetVertexAttribdvARB = (bglGetVertexAttribdvARBProcPtr) NULL;
-    bglGetVertexAttribfvARB = (bglGetVertexAttribfvARBProcPtr) NULL;
-    bglGetVertexAttribivARB = (bglGetVertexAttribivARBProcPtr) NULL;
-    bglGetVertexAttribPointervARB = (bglGetVertexAttribPointervARBProcPtr) NULL;
-    bglBindAttribLocationARB = (bglBindAttribLocationARBProcPtr) NULL;
-    bglGetActiveAttribARB = (bglGetActiveAttribARBProcPtr) NULL;
-    bglGetAttribLocationARB = (bglGetAttribLocationARBProcPtr) NULL;
+    glVertexAttrib1dARB = (glVertexAttrib1dARBProcPtr) NULL;
+    glVertexAttrib1dvARB = (glVertexAttrib1dvARBProcPtr) NULL;
+    glVertexAttrib1fARB = (glVertexAttrib1fARBProcPtr) NULL;
+    glVertexAttrib1fvARB = (glVertexAttrib1fvARBProcPtr) NULL;
+    glVertexAttrib1sARB = (glVertexAttrib1sARBProcPtr) NULL;
+    glVertexAttrib1svARB = (glVertexAttrib1svARBProcPtr) NULL;
+    glVertexAttrib2dARB = (glVertexAttrib2dARBProcPtr) NULL;
+    glVertexAttrib2dvARB = (glVertexAttrib2dvARBProcPtr) NULL;
+    glVertexAttrib2fARB = (glVertexAttrib2fARBProcPtr) NULL;
+    glVertexAttrib2fvARB = (glVertexAttrib2fvARBProcPtr) NULL;
+    glVertexAttrib2sARB = (glVertexAttrib2sARBProcPtr) NULL;
+    glVertexAttrib2svARB = (glVertexAttrib2svARBProcPtr) NULL;
+    glVertexAttrib3dARB = (glVertexAttrib3dARBProcPtr) NULL;
+    glVertexAttrib3dvARB = (glVertexAttrib3dvARBProcPtr) NULL;
+    glVertexAttrib3fARB = (glVertexAttrib3fARBProcPtr) NULL;
+    glVertexAttrib3fvARB = (glVertexAttrib3fvARBProcPtr) NULL;
+    glVertexAttrib3sARB = (glVertexAttrib3sARBProcPtr) NULL;
+    glVertexAttrib3svARB = (glVertexAttrib3svARBProcPtr) NULL;
+    glVertexAttrib4NbvARB = (glVertexAttrib4NbvARBProcPtr) NULL;
+    glVertexAttrib4NivARB = (glVertexAttrib4NivARBProcPtr) NULL;
+    glVertexAttrib4NsvARB = (glVertexAttrib4NsvARBProcPtr) NULL;
+    glVertexAttrib4NubARB = (glVertexAttrib4NubARBProcPtr) NULL;
+    glVertexAttrib4NubvARB = (glVertexAttrib4NubvARBProcPtr) NULL;
+    glVertexAttrib4NuivARB = (glVertexAttrib4NuivARBProcPtr) NULL;
+    glVertexAttrib4NusvARB = (glVertexAttrib4NusvARBProcPtr) NULL;
+    glVertexAttrib4bvARB = (glVertexAttrib4bvARBProcPtr) NULL;
+    glVertexAttrib4dARB = (glVertexAttrib4dARBProcPtr) NULL;
+    glVertexAttrib4dvARB = (glVertexAttrib4dvARBProcPtr) NULL;
+    glVertexAttrib4fARB = (glVertexAttrib4fARBProcPtr) NULL;
+    glVertexAttrib4fvARB = (glVertexAttrib4fvARBProcPtr) NULL;
+    glVertexAttrib4ivARB = (glVertexAttrib4ivARBProcPtr) NULL;
+    glVertexAttrib4sARB = (glVertexAttrib4sARBProcPtr) NULL;
+    glVertexAttrib4svARB = (glVertexAttrib4svARBProcPtr) NULL;
+    glVertexAttrib4ubvARB = (glVertexAttrib4ubvARBProcPtr) NULL;
+    glVertexAttrib4uivARB = (glVertexAttrib4uivARBProcPtr) NULL;
+    glVertexAttrib4usvARB = (glVertexAttrib4usvARBProcPtr) NULL;
+    glVertexAttribPointerARB = (glVertexAttribPointerARBProcPtr) NULL;
+    glEnableVertexAttribArrayARB = (glEnableVertexAttribArrayARBProcPtr) NULL;
+    glDisableVertexAttribArrayARB = (glDisableVertexAttribArrayARBProcPtr) NULL;
+    glGetVertexAttribdvARB = (glGetVertexAttribdvARBProcPtr) NULL;
+    glGetVertexAttribfvARB = (glGetVertexAttribfvARBProcPtr) NULL;
+    glGetVertexAttribivARB = (glGetVertexAttribivARBProcPtr) NULL;
+    glGetVertexAttribPointervARB = (glGetVertexAttribPointervARBProcPtr) NULL;
+    glBindAttribLocationARB = (glBindAttribLocationARBProcPtr) NULL;
+    glGetActiveAttribARB = (glGetActiveAttribARBProcPtr) NULL;
+    glGetAttribLocationARB = (glGetAttribLocationARBProcPtr) NULL;
 
     // Debug Output
 #ifndef __APPLE__
-    bglDebugMessageControlARB = (bglDebugMessageControlARBProcPtr) NULL;
-    bglDebugMessageCallbackARB = (bglDebugMessageCallbackARBProcPtr) NULL;
+    glDebugMessageControlARB = (glDebugMessageControlARBProcPtr) NULL;
+    glDebugMessageCallbackARB = (glDebugMessageCallbackARBProcPtr) NULL;
 #endif
 
 #ifdef _WIN32
-    bwglSwapIntervalEXT = (bwglSwapIntervalEXTProcPtr) NULL;
-    bwglCreateContextAttribsARB = (bwglCreateContextAttribsARBProcPtr) NULL;
+    wglSwapIntervalEXT = (wglSwapIntervalEXTProcPtr) NULL;
+    wglCreateContextAttribsARB = (wglCreateContextAttribsARBProcPtr) NULL;
 #endif
 #endif
 
@@ -1067,9 +1065,9 @@ int32_t loadglulibrary(const char *driver)
 #elif defined __APPLE__
         driver = "/System/Library/Frameworks/OpenGL.framework/OpenGL"; // FIXME: like I know anything about Apple.  Hah.
 #elif defined __OpenBSD__
-        driver = "libGLU.so";
+        driver = "liglU.so";
 #else
-        driver = "libGLU.so.1";
+        driver = "liglU.so.1";
 #endif
     }
 
@@ -1087,23 +1085,23 @@ int32_t loadglulibrary(const char *driver)
 
     glulibrary = Bstrdup(driver);
 
-    bgluTessBeginContour = (bgluTessBeginContourProcPtr) GLUGETPROC("gluTessBeginContour");
-    bgluTessBeginPolygon = (bgluTessBeginPolygonProcPtr) GLUGETPROC("gluTessBeginPolygon");
-    bgluTessCallback = (bgluTessCallbackProcPtr) GLUGETPROC("gluTessCallback");
-    bgluTessEndContour = (bgluTessEndContourProcPtr) GLUGETPROC("gluTessEndContour");
-    bgluTessEndPolygon = (bgluTessEndPolygonProcPtr) GLUGETPROC("gluTessEndPolygon");
-    bgluTessNormal = (bgluTessNormalProcPtr) GLUGETPROC("gluTessNormal");
-    bgluTessProperty = (bgluTessPropertyProcPtr) GLUGETPROC("gluTessProperty");
-    bgluTessVertex = (bgluTessVertexProcPtr) GLUGETPROC("gluTessVertex");
-    bgluNewTess = (bgluNewTessProcPtr) GLUGETPROC("gluNewTess");
-    bgluDeleteTess = (bgluDeleteTessProcPtr) GLUGETPROC("gluDeleteTess");
+    gluTessBeginContour = (gluTessBeginContourProcPtr) GLUGETPROC("gluTessBeginContour");
+    gluTessBeginPolygon = (gluTessBeginPolygonProcPtr) GLUGETPROC("gluTessBeginPolygon");
+    gluTessCallback = (gluTessCallbackProcPtr) GLUGETPROC("gluTessCallback");
+    gluTessEndContour = (gluTessEndContourProcPtr) GLUGETPROC("gluTessEndContour");
+    gluTessEndPolygon = (gluTessEndPolygonProcPtr) GLUGETPROC("gluTessEndPolygon");
+    gluTessNormal = (gluTessNormalProcPtr) GLUGETPROC("gluTessNormal");
+    gluTessProperty = (gluTessPropertyProcPtr) GLUGETPROC("gluTessProperty");
+    gluTessVertex = (gluTessVertexProcPtr) GLUGETPROC("gluTessVertex");
+    gluNewTess = (gluNewTessProcPtr) GLUGETPROC("gluNewTess");
+    gluDeleteTess = (gluDeleteTessProcPtr) GLUGETPROC("gluDeleteTess");
 
-    bgluPerspective = (bgluPerspectiveProcPtr) GLUGETPROC("gluPerspective");
+    gluPerspective = (gluPerspectiveProcPtr) GLUGETPROC("gluPerspective");
 
-    bgluErrorString = (bgluErrorStringProcPtr) GLUGETPROC("gluErrorString");
+    gluErrorString = (gluErrorStringProcPtr) GLUGETPROC("gluErrorString");
 
-    bgluProject = (bgluProjectProcPtr) GLUGETPROC("gluProject");
-    bgluUnProject = (bgluUnProjectProcPtr) GLUGETPROC("gluUnProject");
+    gluProject = (gluProjectProcPtr) GLUGETPROC("gluProject");
+    gluUnProject = (gluUnProjectProcPtr) GLUGETPROC("gluUnProject");
 
     if (err) unloadglulibrary();
     return err;
@@ -1130,23 +1128,23 @@ int32_t unloadglulibrary(void)
     gluhandle = NULL;
 #endif
 
-    bgluTessBeginContour = (bgluTessBeginContourProcPtr) NULL;
-    bgluTessBeginPolygon = (bgluTessBeginPolygonProcPtr) NULL;
-    bgluTessCallback = (bgluTessCallbackProcPtr) NULL;
-    bgluTessEndContour = (bgluTessEndContourProcPtr) NULL;
-    bgluTessEndPolygon = (bgluTessEndPolygonProcPtr) NULL;
-    bgluTessNormal = (bgluTessNormalProcPtr) NULL;
-    bgluTessProperty = (bgluTessPropertyProcPtr) NULL;
-    bgluTessVertex = (bgluTessVertexProcPtr) NULL;
-    bgluNewTess = (bgluNewTessProcPtr) NULL;
-    bgluDeleteTess = (bgluDeleteTessProcPtr) NULL;
+    gluTessBeginContour = (gluTessBeginContourProcPtr) NULL;
+    gluTessBeginPolygon = (gluTessBeginPolygonProcPtr) NULL;
+    gluTessCallback = (gluTessCallbackProcPtr) NULL;
+    gluTessEndContour = (gluTessEndContourProcPtr) NULL;
+    gluTessEndPolygon = (gluTessEndPolygonProcPtr) NULL;
+    gluTessNormal = (gluTessNormalProcPtr) NULL;
+    gluTessProperty = (gluTessPropertyProcPtr) NULL;
+    gluTessVertex = (gluTessVertexProcPtr) NULL;
+    gluNewTess = (gluNewTessProcPtr) NULL;
+    gluDeleteTess = (gluDeleteTessProcPtr) NULL;
 
-    bgluPerspective = (bgluPerspectiveProcPtr) NULL;
+    gluPerspective = (gluPerspectiveProcPtr) NULL;
 
-    bgluErrorString = (bgluErrorStringProcPtr) NULL;
+    gluErrorString = (gluErrorStringProcPtr) NULL;
 
-    bgluProject = (bgluProjectProcPtr) NULL;
-    bgluUnProject = (bgluUnProjectProcPtr) NULL;
+    gluProject = (gluProjectProcPtr) NULL;
+    gluUnProject = (gluUnProjectProcPtr) NULL;
 #endif
 
     return 0;
@@ -1191,8 +1189,8 @@ static void texdbg_realloc(uint32_t maxtexname)
     texnameallocsize = newsize;
 }
 
-#undef bglGenTextures
-void texdbg_bglGenTextures(GLsizei n, GLuint *textures, const char *srcfn)
+#undef glGenTextures
+void texdbg_glGenTextures(GLsizei n, GLuint *textures, const char *srcfn)
 {
     int32_t i;
     uint32_t hash = srcfn ? texdbg_getcode(srcfn) : 0;
@@ -1201,7 +1199,7 @@ void texdbg_bglGenTextures(GLsizei n, GLuint *textures, const char *srcfn)
         if (textures[i] < texnameallocsize && (texnameused[textures[i]>>3]&(1<<(textures[i]&7))))
             initprintf("texdebug %x Gen: overwriting used tex name %u from %x\n", hash, textures[i], texnamefromwhere[textures[i]]);
 
-    bglGenTextures(n, textures);
+    glGenTextures(n, textures);
 
     {
         GLuint maxtexname = 0;
@@ -1219,8 +1217,8 @@ void texdbg_bglGenTextures(GLsizei n, GLuint *textures, const char *srcfn)
     }
 }
 
-#undef bglDeleteTextures
-void texdbg_bglDeleteTextures(GLsizei n, const GLuint *textures, const char *srcfn)
+#undef glDeleteTextures
+void texdbg_glDeleteTextures(GLsizei n, const GLuint *textures, const char *srcfn)
 {
     int32_t i;
     uint32_t hash = srcfn ? texdbg_getcode(srcfn) : 0;
@@ -1236,7 +1234,7 @@ void texdbg_bglDeleteTextures(GLsizei n, const GLuint *textures, const char *src
                            textures[i], texnamefromwhere[textures[i]]);
         }
 
-    bglDeleteTextures(n, textures);
+    glDeleteTextures(n, textures);
 
     if (texnameallocsize)
         for (i=0; i<n; i++)

@@ -106,15 +106,15 @@ void md_freevbos()
             if (m->vbos)
             {
                 //            OSD_Printf("freeing model %d vbo\n",i);
-                bglDeleteBuffersARB(m->head.numsurfs, m->vbos);
+                glDeleteBuffersARB(m->head.numsurfs, m->vbos);
                 DO_FREE_AND_NULL(m->vbos);
             }
         }
 
     if (allocvbos)
     {
-        bglDeleteBuffersARB(allocvbos, indexvbos);
-        bglDeleteBuffersARB(allocvbos, vertvbos);
+        glDeleteBuffersARB(allocvbos, indexvbos);
+        glDeleteBuffersARB(allocvbos, vertvbos);
         allocvbos = 0;
     }
 }
@@ -195,7 +195,7 @@ void clearskins(int32_t type)
             for (j=0; j<MAXPALOOKUPS; j++)
                 if (v->texid[j])
                 {
-                    bglDeleteTextures(1, &v->texid[j]);
+                    glDeleteTextures(1, &v->texid[j]);
                     v->texid[j] = 0;
                 }
         }
@@ -209,7 +209,7 @@ void clearskins(int32_t type)
                 {
                     GLuint otexid = m2->texid[j];
 
-                    bglDeleteTextures(1, &m2->texid[j]);
+                    glDeleteTextures(1, &m2->texid[j]);
                     m2->texid[j] = 0;
 
                     nullskintexids(otexid);
@@ -221,7 +221,7 @@ void clearskins(int32_t type)
                     {
                         GLuint otexid = sk->texid[j];
 
-                        bglDeleteTextures(1, &sk->texid[j]);
+                        glDeleteTextures(1, &sk->texid[j]);
                         sk->texid[j] = 0;
 
                         nullskintexids(otexid);
@@ -237,7 +237,7 @@ void clearskins(int32_t type)
         for (j=0; j<MAXPALOOKUPS; j++)
             if (v->texid[j])
             {
-                bglDeleteTextures(1, &v->texid[j]);
+                glDeleteTextures(1, &v->texid[j]);
                 v->texid[j] = 0;
             }
     }
@@ -898,13 +898,13 @@ int32_t mdloadskin(md2model_t *m, int32_t number, int32_t pal, int32_t surf)
         if (pal < (MAXPALOOKUPS - RESERVEDPALS))
             m->usesalpha = hasalpha;
         if ((doalloc&3)==1)
-            bglGenTextures(1, texidx);
+            glGenTextures(1, texidx);
 
-        bglBindTexture(GL_TEXTURE_2D, *texidx);
+        glBindTexture(GL_TEXTURE_2D, *texidx);
 
         //gluBuild2DMipmaps(GL_TEXTURE_2D,GL_RGBA,xsiz,ysiz,GL_BGRA_EXT,GL_UNSIGNED_BYTE,(char *)fptr);
 
-        int32_t const texfmt = glinfo.bgra ? GL_BGRA : GL_RGBA;
+        int32_t const texfmt =  GL_RGBA;
 
         uploadtexture((doalloc&1), siz, texfmt, pic, tsiz,
                       DAMETH_HI | DAMETH_MASK |
@@ -955,14 +955,14 @@ int32_t mdloadskin(md2model_t *m, int32_t number, int32_t pal, int32_t surf)
 
     int32_t const filter = sk->flags & HICR_FORCEFILTER ? TEXFILTER_ON : gltexfiltermode;
 
-    bglTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,glfiltermodes[filter].mag);
-    bglTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,glfiltermodes[filter].min);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,glfiltermodes[filter].mag);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,glfiltermodes[filter].min);
 #ifdef USE_GLEXT
     if (glinfo.maxanisotropy > 1.0)
-        bglTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAX_ANISOTROPY_EXT,glanisotropy);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAX_ANISOTROPY_EXT,glanisotropy);
 #endif
-    bglTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
-    bglTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_REPEAT);
 
 #if defined USE_GLEXT && !defined EDUKE32_GLES
     if (!gotcache && glinfo.texcompr && glusetexcache && !(sk->flags & HICR_NOTEXCOMPRESS) &&
@@ -1181,16 +1181,16 @@ static void mdloadvbos(md3model_t *m)
     int32_t     i;
 
     m->vbos = (GLuint *)Xmalloc(m->head.numsurfs * sizeof(GLuint));
-    bglGenBuffersARB(m->head.numsurfs, m->vbos);
+    glGenBuffersARB(m->head.numsurfs, m->vbos);
 
     i = 0;
     while (i < m->head.numsurfs)
     {
-        bglBindBufferARB(GL_ARRAY_BUFFER_ARB, m->vbos[i]);
-        bglBufferDataARB(GL_ARRAY_BUFFER_ARB, m->head.surfs[i].numverts * sizeof(md3uv_t), m->head.surfs[i].uv, GL_STATIC_DRAW_ARB);
+        glBindBufferARB(GL_ARRAY_BUFFER_ARB, m->vbos[i]);
+        glBufferDataARB(GL_ARRAY_BUFFER_ARB, m->head.surfs[i].numverts * sizeof(md3uv_t), m->head.surfs[i].uv, GL_STATIC_DRAW_ARB);
         i++;
     }
-    bglBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
+    glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
 }
 #endif
 
@@ -2029,7 +2029,7 @@ static void md3draw_handle_triangles(const md3surf_t *s, uint16_t *indexhandle,
         return;
     }
 
-    bglBegin(GL_TRIANGLES);
+    glBegin(GL_TRIANGLES);
     for (i=s->numtris-1; i>=0; i--)
     {
         uint16_t tri = M ? M->indexes[i] : i;
@@ -2044,16 +2044,16 @@ static void md3draw_handle_triangles(const md3surf_t *s, uint16_t *indexhandle,
             {
                 int32_t l = GL_TEXTURE0_ARB;
                 while (l <= texunits)
-                    bglMultiTexCoord2fARB(l++, s->uv[k].u, s->uv[k].v);
+                    glMultiTexCoord2fARB(l++, s->uv[k].u, s->uv[k].v);
             }
             else
 #endif
-                bglTexCoord2f(s->uv[k].u, s->uv[k].v);
+                glTexCoord2f(s->uv[k].u, s->uv[k].v);
 
-            bglVertex3fv((float *) &vertlist[k]);
+            glVertex3fv((float *) &vertlist[k]);
         }
     }
-    bglEnd();
+    glEnd();
 
 #ifndef USE_GLEXT
     UNREFERENCED_PARAMETER(texunits);
@@ -2176,18 +2176,18 @@ static int32_t polymost_md3draw(md3model_t *m, const uspritetype *tspr)
 #else
         double f = (double) (tspr->owner + 1) * (FLT_EPSILON * 8.0);
         if (f != 0.0) f *= 1.0/(double) (sepldist(globalposx - tspr->x, globalposy - tspr->y)>>5);
-//        bglBlendFunc(GL_SRC_ALPHA, GL_DST_COLOR);
+//        glBlendFunc(GL_SRC_ALPHA, GL_DST_COLOR);
 #endif
-        bglDepthFunc(GL_LEQUAL);
-//        bglDepthRange(0.0 - f, 1.0 - f);
+        glDepthFunc(GL_LEQUAL);
+//        glDepthRange(0.0 - f, 1.0 - f);
     }
 
-//    bglPushAttrib(GL_POLYGON_BIT);
-    if ((grhalfxdown10x >= 0) ^((globalorientation&8) != 0) ^((globalorientation&4) != 0)) bglFrontFace(GL_CW); else bglFrontFace(GL_CCW);
-    bglEnable(GL_CULL_FACE);
-    bglCullFace(GL_BACK);
+//    glPushAttrib(GL_POLYGON_BIT);
+//    if ((grhalfxdown10x >= 0) ^((globalorientation&8) != 0) ^((globalorientation&4) != 0)) glFrontFace(GL_CW); else glFrontFace(GL_CCW);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
 
-    bglEnable(GL_TEXTURE_2D);
+    glEnable(GL_TEXTURE_2D);
 
     // tinting
     pc[0] = pc[1] = pc[2] = ((float)(numshades-min(max((globalshade * shadescale)+m->shadeoff,0),numshades)))/((float)numshades);
@@ -2209,25 +2209,25 @@ static int32_t polymost_md3draw(md3model_t *m, const uspritetype *tspr)
 
     if (m->usesalpha) //Sprites with alpha in texture
     {
-        //      bglEnable(GL_BLEND);// bglBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-        //      bglEnable(GL_ALPHA_TEST); bglAlphaFunc(GL_GREATER,0.32);
+        //      glEnable(GL_BLEND);// glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+        //      glEnable(GL_ALPHA_TEST); glAlphaFunc(GL_GREATER,0.32);
         //      float al = 0.32;
         // PLAG : default cutoff removed
         float al = 0.0;
         if (alphahackarray[globalpicnum] != 0)
             al=alphahackarray[globalpicnum] * (1.f/255.f);
-        bglEnable(GL_BLEND);
-        bglEnable(GL_ALPHA_TEST);
-        bglAlphaFunc(GL_GREATER,al);
+        glEnable(GL_BLEND);
+        glEnable(GL_ALPHA_TEST);
+        glAlphaFunc(GL_GREATER,al);
     }
     else
     {
         if ((tspr->cstat&2) || sext->alpha > 0.f || pc[3] < 1.0f)
-            bglEnable(GL_BLEND); //else bglDisable(GL_BLEND);
+            glEnable(GL_BLEND); //else glDisable(GL_BLEND);
     }
-    bglColor4f(pc[0],pc[1],pc[2],pc[3]);
+    glColor4f(pc[0],pc[1],pc[2],pc[3]);
     //if (MFLAGS_NOCONV(m))
-    //    bglColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+    //    glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
     //------------
 
     // PLAG: Cleaner model rotation code
@@ -2275,8 +2275,8 @@ static int32_t polymost_md3draw(md3model_t *m, const uspritetype *tspr)
             if (++curvbo >= r_vbocount)
                 curvbo = 0;
 
-            bglBindBufferARB(GL_ARRAY_BUFFER_ARB, vertvbos[curvbo]);
-            vbotemp = bglMapBufferARB(GL_ARRAY_BUFFER_ARB, GL_WRITE_ONLY_ARB);
+            glBindBufferARB(GL_ARRAY_BUFFER_ARB, vertvbos[curvbo]);
+            vbotemp = glMapBufferARB(GL_ARRAY_BUFFER_ARB, GL_WRITE_ONLY_ARB);
             vertexhandle = (vec3f_t *)vbotemp;
         }
 #endif
@@ -2334,25 +2334,25 @@ static int32_t polymost_md3draw(md3model_t *m, const uspritetype *tspr)
 #ifdef USE_GLEXT
         if (r_vertexarrays && r_vbos)
         {
-            bglUnmapBufferARB(GL_ARRAY_BUFFER_ARB);
-            bglBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
+            glUnmapBufferARB(GL_ARRAY_BUFFER_ARB);
+            glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
         }
 #endif
 
-        bglMatrixMode(GL_MODELVIEW); //Let OpenGL (and perhaps hardware :) handle the matrix rotation
-        mat[3] = mat[7] = mat[11] = 0.f; mat[15] = 1.f; bglLoadMatrixf(mat);
+        glMatrixMode(GL_MODELVIEW); //Let OpenGL (and perhaps hardware :) handle the matrix rotation
+        mat[3] = mat[7] = mat[11] = 0.f; mat[15] = 1.f; glLoadMatrixf(mat);
         // PLAG: End
 
         i = mdloadskin((md2model_t *)m,tile2model[Ptile2tile(tspr->picnum,lpal)].skinnum,globalpal,surfi);
         if (!i)
             continue;
         //i = mdloadskin((md2model *)m,tile2model[Ptile2tile(tspr->picnum,lpal)].skinnum,surfi); //hack for testing multiple surfaces per MD3
-        bglBindTexture(GL_TEXTURE_2D, i);
+        glBindTexture(GL_TEXTURE_2D, i);
 
-        bglMatrixMode(GL_TEXTURE);
-        bglLoadIdentity();
-        bglTranslatef(xpanning, ypanning, 1.0f);
-        bglMatrixMode(GL_MODELVIEW);
+        glMatrixMode(GL_TEXTURE);
+        glLoadIdentity();
+        glTranslatef(xpanning, ypanning, 1.0f);
+        glMatrixMode(GL_MODELVIEW);
 
         if (!(tspr->extra&TSPR_EXTRA_MDHACK))
         {
@@ -2369,11 +2369,11 @@ static int32_t polymost_md3draw(md3model_t *m, const uspritetype *tspr)
                     if ((int32_t) sk->palette == DETAILPAL && sk->skinnum == tile2model[Ptile2tile(tspr->picnum, lpal)].skinnum && sk->surfnum == surfi)
                         f = sk->param;
 
-                bglMatrixMode(GL_TEXTURE);
-                bglLoadIdentity();
-                bglTranslatef(xpanning, ypanning, 1.0f);
-                bglScalef(f, f, 1.0f);
-                bglMatrixMode(GL_MODELVIEW);
+                glMatrixMode(GL_TEXTURE);
+                glLoadIdentity();
+                glTranslatef(xpanning, ypanning, 1.0f);
+                glScalef(f, f, 1.0f);
+                glMatrixMode(GL_MODELVIEW);
             }
 
             i = r_glowmapping ? mdloadskin((md2model_t *) m, tile2model[Ptile2tile(tspr->picnum, lpal)].skinnum, GLOWPAL, surfi) : 0;
@@ -2382,16 +2382,16 @@ static int32_t polymost_md3draw(md3model_t *m, const uspritetype *tspr)
             {
                 polymost_setupglowtexture(++texunits, i);
 
-                bglMatrixMode(GL_TEXTURE);
-                bglLoadIdentity();
-                bglTranslatef(xpanning, ypanning, 1.0f);
-                bglMatrixMode(GL_MODELVIEW);
+                glMatrixMode(GL_TEXTURE);
+                glLoadIdentity();
+                glTranslatef(xpanning, ypanning, 1.0f);
+                glMatrixMode(GL_MODELVIEW);
             }
 
             if (r_vertexarrays && r_vbos)
             {
-                bglBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, indexvbos[curvbo]);
-                vbotemp = bglMapBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, GL_WRITE_ONLY_ARB);
+                glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, indexvbos[curvbo]);
+                vbotemp = glMapBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, GL_WRITE_ONLY_ARB);
                 indexhandle = (uint16_t *) vbotemp;
             }
             else
@@ -2445,8 +2445,8 @@ static int32_t polymost_md3draw(md3model_t *m, const uspritetype *tspr)
 #ifdef USE_GLEXT
             if (r_vertexarrays && r_vbos)
             {
-                bglBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, indexvbos[curvbo]);
-                vbotemp = bglMapBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, GL_WRITE_ONLY_ARB);
+                glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, indexvbos[curvbo]);
+                vbotemp = glMapBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, GL_WRITE_ONLY_ARB);
                 indexhandle = (uint16_t *) vbotemp;
             }
             else
@@ -2463,60 +2463,60 @@ static int32_t polymost_md3draw(md3model_t *m, const uspritetype *tspr)
 
             if (r_vbos)
             {
-                bglUnmapBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB);
-                bglBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, 0);
-                bglBindBufferARB(GL_ARRAY_BUFFER_ARB, m->vbos[surfi]);
+                glUnmapBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB);
+                glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, 0);
+                glBindBufferARB(GL_ARRAY_BUFFER_ARB, m->vbos[surfi]);
 
                 l = GL_TEXTURE0_ARB;
                 do
                 {
-                    bglClientActiveTextureARB(l++);
-                    bglEnableClientState(GL_TEXTURE_COORD_ARRAY);
-                    bglTexCoordPointer(2, GL_FLOAT, 0, 0);
+                    glClientActiveTextureARB(l++);
+                    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+                    glTexCoordPointer(2, GL_FLOAT, 0, 0);
                 } while (l <= texunits);
 
-                bglBindBufferARB(GL_ARRAY_BUFFER_ARB, vertvbos[curvbo]);
-                bglVertexPointer(3, GL_FLOAT, 0, 0);
+                glBindBufferARB(GL_ARRAY_BUFFER_ARB, vertvbos[curvbo]);
+                glVertexPointer(3, GL_FLOAT, 0, 0);
 
-                bglBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, indexvbos[curvbo]);
-                bglDrawElements(GL_TRIANGLES, s->numtris * 3, GL_UNSIGNED_SHORT, 0);
+                glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, indexvbos[curvbo]);
+                glDrawElements(GL_TRIANGLES, s->numtris * 3, GL_UNSIGNED_SHORT, 0);
 
-                bglBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
-                bglBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, 0);
+                glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
+                glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, 0);
             }
             else // r_vbos
             {
                 l = GL_TEXTURE0_ARB;
                 do
                 {
-                    bglClientActiveTextureARB(l++);
-                    bglEnableClientState(GL_TEXTURE_COORD_ARRAY);
-                    bglTexCoordPointer(2, GL_FLOAT, 0, &(s->uv[0].u));
+                    glClientActiveTextureARB(l++);
+                    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+                    glTexCoordPointer(2, GL_FLOAT, 0, &(s->uv[0].u));
                 } while (l <= texunits);
 
-                bglVertexPointer(3, GL_FLOAT, 0, &(vertlist[0].x));
+                glVertexPointer(3, GL_FLOAT, 0, &(vertlist[0].x));
 
-                bglDrawElements(GL_TRIANGLES, s->numtris * 3, GL_UNSIGNED_SHORT, m->vindexes);
+                glDrawElements(GL_TRIANGLES, s->numtris * 3, GL_UNSIGNED_SHORT, m->vindexes);
             } // r_vbos
 
             while (texunits > GL_TEXTURE0_ARB)
             {
-                bglMatrixMode(GL_TEXTURE);
-                bglLoadIdentity();
-                bglMatrixMode(GL_MODELVIEW);
-                bglTexEnvf(GL_TEXTURE_ENV, GL_RGB_SCALE_ARB, 1.0f);
-                bglDisable(GL_TEXTURE_2D);
-                bglDisableClientState(GL_TEXTURE_COORD_ARRAY);
-                bglClientActiveTextureARB(texunits - 1);
-                bglActiveTextureARB(--texunits);
+                glMatrixMode(GL_TEXTURE);
+                glLoadIdentity();
+                glMatrixMode(GL_MODELVIEW);
+                glTexEnvf(GL_TEXTURE_ENV, GL_RGB_SCALE_ARB, 1.0f);
+                glDisable(GL_TEXTURE_2D);
+                glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+                glClientActiveTextureARB(texunits - 1);
+                glActiveTextureARB(--texunits);
             }
 #else
-            bglEnableClientState(GL_TEXTURE_COORD_ARRAY);
-            bglTexCoordPointer(2, GL_FLOAT, 0, &(s->uv[0].u));
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            glTexCoordPointer(2, GL_FLOAT, 0, &(s->uv[0].u));
 
-            bglVertexPointer(3, GL_FLOAT, 0, &(vertlist[0].x));
+            glVertexPointer(3, GL_FLOAT, 0, &(vertlist[0].x));
 
-            bglDrawElements(GL_TRIANGLES, s->numtris * 3, GL_UNSIGNED_SHORT, m->vindexes);
+            glDrawElements(GL_TRIANGLES, s->numtris * 3, GL_UNSIGNED_SHORT, m->vindexes);
 #endif
         }
 #ifdef USE_GLEXT
@@ -2524,27 +2524,27 @@ static int32_t polymost_md3draw(md3model_t *m, const uspritetype *tspr)
         {
             while (texunits > GL_TEXTURE0_ARB)
             {
-                bglMatrixMode(GL_TEXTURE);
-                bglLoadIdentity();
-                bglMatrixMode(GL_MODELVIEW);
-                bglTexEnvf(GL_TEXTURE_ENV, GL_RGB_SCALE_ARB, 1.0f);
-                bglDisable(GL_TEXTURE_2D);
-                bglActiveTextureARB(--texunits);
+                glMatrixMode(GL_TEXTURE);
+                glLoadIdentity();
+                glMatrixMode(GL_MODELVIEW);
+                glTexEnvf(GL_TEXTURE_ENV, GL_RGB_SCALE_ARB, 1.0f);
+                glDisable(GL_TEXTURE_2D);
+                glActiveTextureARB(--texunits);
             }
         } // r_vertexarrays
 #endif
     }
     //------------
 
-    if (m->usesalpha) bglDisable(GL_ALPHA_TEST);
+    if (m->usesalpha) glDisable(GL_ALPHA_TEST);
 
-    bglDisable(GL_CULL_FACE);
-//    bglPopAttrib();
+    glDisable(GL_CULL_FACE);
+//    glPopAttrib();
 
-    bglMatrixMode(GL_TEXTURE);
-    bglLoadIdentity();
-    bglMatrixMode(GL_MODELVIEW);
-    bglLoadIdentity();
+    glMatrixMode(GL_TEXTURE);
+    glLoadIdentity();
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
 
     globalnoeffect=0;
     return 1;
@@ -2593,7 +2593,7 @@ static void md3free(md3model_t *m)
 #ifdef USE_GLEXT
     if (m->vbos)
     {
-        bglDeleteBuffersARB(m->head.numsurfs, m->vbos);
+        glDeleteBuffersARB(m->head.numsurfs, m->vbos);
         DO_FREE_AND_NULL(m->vbos);
     }
 #endif
@@ -2670,21 +2670,21 @@ void md_allocvbos(void)
 
     if (r_vbocount != allocvbos)
     {
-        bglGenBuffersARB(r_vbocount - allocvbos, &(indexvbos[allocvbos]));
-        bglGenBuffersARB(r_vbocount - allocvbos, &(vertvbos[allocvbos]));
+        glGenBuffersARB(r_vbocount - allocvbos, &(indexvbos[allocvbos]));
+        glGenBuffersARB(r_vbocount - allocvbos, &(vertvbos[allocvbos]));
 
         i = allocvbos;
         while (i < r_vbocount)
         {
-            bglBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, indexvbos[i]);
-            bglBufferDataARB(GL_ELEMENT_ARRAY_BUFFER_ARB, maxmodeltris * 3 * sizeof(uint16_t), NULL, GL_STREAM_DRAW_ARB);
-            bglBindBufferARB(GL_ARRAY_BUFFER_ARB, vertvbos[i]);
-            bglBufferDataARB(GL_ARRAY_BUFFER_ARB, maxmodelverts * sizeof(vec3f_t), NULL, GL_STREAM_DRAW_ARB);
+            glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, indexvbos[i]);
+            glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER_ARB, maxmodeltris * 3 * sizeof(uint16_t), NULL, GL_STREAM_DRAW_ARB);
+            glBindBufferARB(GL_ARRAY_BUFFER_ARB, vertvbos[i]);
+            glBufferDataARB(GL_ARRAY_BUFFER_ARB, maxmodelverts * sizeof(vec3f_t), NULL, GL_STREAM_DRAW_ARB);
             i++;
         }
 
-        bglBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, 0);
-        bglBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
+        glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, 0);
+        glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
 
         allocvbos = r_vbocount;
     }

@@ -524,14 +524,6 @@ int32_t initsystem(void)
 
     win_init();
 
-#ifdef USE_OPENGL
-    if (loadgldriver(getenv("BUILD_GLDRV")))
-    {
-        initprintf("Failure loading OpenGL. GL modes are unavailable.\n");
-        nogl = 1;
-    }
-#endif
-
     // determine physical screen size
     {
         const int32_t oscreenx = GetSystemMetrics(SM_CXSCREEN);
@@ -575,9 +567,6 @@ void uninitsystem(void)
 
     win_uninit();
 
-#ifdef USE_OPENGL
-    unloadgldriver();
-#endif
 }
 
 
@@ -1668,7 +1657,7 @@ int32_t setvideomode(int32_t x, int32_t y, int32_t c, int32_t fs)
     }
 
 #if defined USE_OPENGL && defined USE_GLEXT
-    if (hGLWindow && glinfo.vsync) bwglSwapIntervalEXT(vsync_renderlayer);
+    if (hGLWindow && glinfo.vsync) wglSwapIntervalEXT(vsync_renderlayer);
 #endif
     if (inp) AcquireInputDevices(1);
     modechange=1;
@@ -1704,7 +1693,7 @@ int32_t setvsync(int32_t newSync)
         return 0;
     }
 # ifdef USE_GLEXT
-    bwglSwapIntervalEXT(newSync);
+    wglSwapIntervalEXT(newSync);
 # endif
 #endif
 
@@ -1939,7 +1928,9 @@ void showframe(int32_t w)
         if (palfadedelta)
             fullscreen_tint_gl(palfadergb.r, palfadergb.g, palfadergb.b, palfadedelta);
 
-        bwglSwapBuffers(hDC);
+        SwapBuffers(hDC);
+        glClearDepth(1.0);
+        glClear(GL_DEPTH_BUFFER_BIT);
         return;
     }
 #endif
@@ -2605,8 +2596,8 @@ static void ReleaseOpenGL(void)
     if (hGLRC)
     {
         polymost_glreset();
-        if (!bwglMakeCurrent(0,0)) { }
-        if (!bwglDeleteContext(hGLRC)) { }
+        if (!wglMakeCurrent(0,0)) { }
+        if (!wglDeleteContext(hGLRC)) { }
         hGLRC = NULL;
     }
     if (hGLWindow)
@@ -2685,19 +2676,11 @@ static int32_t SetupOpenGL(int32_t width, int32_t height, int32_t bitspp)
         return TRUE;
     }
 
-    minidriver = Bstrcasecmp(gldriver,"opengl32.dll");
+    minidriver = NULL;
 
-    if (minidriver) PixelFormat = bwglChoosePixelFormat(hDC,&pfd);
-    else PixelFormat = ChoosePixelFormat(hDC,&pfd);
-    if (!PixelFormat)
-    {
-        ReleaseOpenGL();
-        ShowErrorBox("Can't choose pixel format");
-        return TRUE;
-    }
+    PixelFormat = ChoosePixelFormat(hDC, &pfd);
 
-    if (minidriver) err = bwglSetPixelFormat(hDC, PixelFormat, &pfd);
-    else err = SetPixelFormat(hDC, PixelFormat, &pfd);
+    err = SetPixelFormat(hDC, PixelFormat, &pfd);
     if (!err)
     {
         ReleaseOpenGL();
@@ -2705,7 +2688,7 @@ static int32_t SetupOpenGL(int32_t width, int32_t height, int32_t bitspp)
         return TRUE;
     }
 
-    hGLRC = bwglCreateContext(hDC);
+    hGLRC = (HGLRC)wglCreateContext(hDC);
 
     if (!hGLRC)
     {
@@ -2714,19 +2697,17 @@ static int32_t SetupOpenGL(int32_t width, int32_t height, int32_t bitspp)
         return TRUE;
     }
 
-    if (!bwglMakeCurrent(hDC, hGLRC))
+    if (!wglMakeCurrent(hDC, hGLRC))
     {
         ReleaseOpenGL();
         ShowErrorBox("Can't activate GL RC");
         return TRUE;
     }
 
-    loadglextensions();
-
 # if defined DEBUGGINGAIDS && defined USE_GLEXT
     // We should really be checking for the new WGL extension string instead
     // Enable this to leverage ARB_debug_output
-    if (bwglCreateContextAttribsARB) {
+    if (wglCreateContextAttribsARB) {
         HGLRC debuggingContext = hGLRC;
 
         // This corresponds to WGL_CONTEXT_FLAGS_ARB set to WGL_CONTEXT_DEBUG_BIT_ARB
@@ -2736,11 +2717,11 @@ static int32_t SetupOpenGL(int32_t width, int32_t height, int32_t bitspp)
             0
         };
 
-        debuggingContext = bwglCreateContextAttribsARB(hDC, NULL, attribs);
+        debuggingContext = wglCreateContextAttribsARB(hDC, NULL, attribs);
 
         if (debuggingContext) {
-            bwglDeleteContext(hGLRC);
-            bwglMakeCurrent(hDC, debuggingContext);
+            wglDeleteContext(hGLRC);
+            wglMakeCurrent(hDC, debuggingContext);
             hGLRC = debuggingContext;
 
             // This should be able to get the ARB_debug_output symbols
@@ -2751,22 +2732,19 @@ static int32_t SetupOpenGL(int32_t width, int32_t height, int32_t bitspp)
 
     polymost_glreset();
 
-    bglEnable(GL_TEXTURE_2D);
-    bglShadeModel(GL_SMOOTH); //GL_FLAT
-    bglClearColor(0,0,0,0.5); //Black Background
-    bglHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST); //Use FASTEST for ortho!
-    bglHint(GL_LINE_SMOOTH_HINT,GL_NICEST);
-    bglHint(GL_TEXTURE_COMPRESSION_HINT, GL_NICEST);
-    bglDisable(GL_DITHER);
+    glEnable(GL_TEXTURE_2D);
+    glShadeModel(GL_SMOOTH); //GL_FLAT
+    glClearColor(0,0,0,0.5); //Black Background
+    glHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST); //Use FASTEST for ortho!
 
     {
         GLubyte *p,*p2,*p3;
         int32_t err = 0;
 
-        glinfo.vendor     = (char const *)bglGetString(GL_VENDOR);
-        glinfo.renderer   = (char const *)bglGetString(GL_RENDERER);
-        glinfo.version    = (char const *)bglGetString(GL_VERSION);
-        glinfo.extensions = (char const *)bglGetString(GL_EXTENSIONS);
+        glinfo.vendor     = (char const *)glGetString(GL_VENDOR);
+        glinfo.renderer   = (char const *)glGetString(GL_RENDERER);
+        glinfo.version    = (char const *)glGetString(GL_VERSION);
+        glinfo.extensions = (char const *)glGetString(GL_EXTENSIONS);
 
         // GL driver blacklist
 
@@ -2816,7 +2794,7 @@ static int32_t SetupOpenGL(int32_t width, int32_t height, int32_t bitspp)
             OSD_Printf("Unsupported OpenGL driver detected. GL modes will be unavailable. Use -forcegl to override.\n");
             wm_msgbox("Unsupported OpenGL driver", "Unsupported OpenGL driver detected.  GL modes will be unavailable.");
             ReleaseOpenGL();
-            unloadgldriver();
+
             nogl = 1;
             modeschecked = 0;
             getvalidmodes();
@@ -2826,6 +2804,7 @@ static int32_t SetupOpenGL(int32_t width, int32_t height, int32_t bitspp)
         glinfo.maxanisotropy = 1.0;
         glinfo.bgra = 0;
         glinfo.texcompr = 0;
+        glinfo.texnpot = 1;
 
         // process the extensions string and flag stuff we recognize
         p = (GLubyte *)Bstrdup(glinfo.extensions);
@@ -2835,7 +2814,7 @@ static int32_t SetupOpenGL(int32_t width, int32_t height, int32_t bitspp)
             if (!Bstrcmp((char *)p2, "GL_EXT_texture_filter_anisotropic"))
             {
                 // supports anisotropy. get the maximum anisotropy level
-                bglGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &glinfo.maxanisotropy);
+              //  glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &glinfo.maxanisotropy);
             }
             else if (!Bstrcmp((char *)p2, "GL_EXT_texture_edge_clamp") ||
                      !Bstrcmp((char *)p2, "GL_SGIS_texture_edge_clamp"))
@@ -2846,7 +2825,7 @@ static int32_t SetupOpenGL(int32_t width, int32_t height, int32_t bitspp)
             else if (!Bstrcmp((char *)p2, "GL_EXT_bgra"))
             {
                 // support bgra textures
-                glinfo.bgra = 1;
+               // glinfo.bgra = 1;
             }
             else if (!Bstrcmp((char *)p2, "GL_ARB_texture_compression") && Bstrcmp(glinfo.vendor,"ATI Technologies Inc."))
             {
@@ -2854,7 +2833,7 @@ static int32_t SetupOpenGL(int32_t width, int32_t height, int32_t bitspp)
                 glinfo.texcompr = 1;
 
 #ifdef DYNAMIC_GLEXT
-                if (!bglCompressedTexImage2DARB || !bglGetCompressedTexImageARB)
+                if (!glCompressedTexImage2DARB || !glGetCompressedTexImageARB)
                 {
                     // lacking the necessary extensions to do this
                     initprintf("Warning: the GL driver lacks necessary functions to use caching\n");
@@ -2941,6 +2920,34 @@ static int32_t SetupOpenGL(int32_t width, int32_t height, int32_t bitspp)
     return FALSE;
 }
 #endif
+
+static BOOL AdjustWindowRectForDpi(RECT* rect, DWORD style, BOOL menu, DWORD exStyle, HWND hWnd)
+{
+    typedef BOOL(WINAPI* AdjustWindowRectExForDpiFn)(LPRECT, DWORD, BOOL, DWORD, UINT);
+
+    HMODULE user32 = GetModuleHandleA("user32.dll");
+    if (user32)
+    {
+        AdjustWindowRectExForDpiFn pAdjustWindowRectExForDpi =
+            (AdjustWindowRectExForDpiFn)GetProcAddress(user32, "AdjustWindowRectExForDpi");
+
+        if (pAdjustWindowRectExForDpi)
+        {
+            UINT dpi = 96;
+
+            typedef UINT(WINAPI* GetDpiForWindowFn)(HWND);
+            GetDpiForWindowFn pGetDpiForWindow =
+                (GetDpiForWindowFn)GetProcAddress(user32, "GetDpiForWindow");
+
+            if (pGetDpiForWindow)
+                dpi = pGetDpiForWindow(hWnd);
+
+            return pAdjustWindowRectExForDpi(rect, style, menu, exStyle, dpi);
+        }
+    }
+
+    return AdjustWindowRectEx(rect, style, menu, exStyle);
+}
 
 //
 // CreateAppWindow() -- create the application window
@@ -3043,22 +3050,32 @@ static BOOL CreateAppWindow(int32_t modenum)
     // resize the window
     if (!fs)
     {
-        rect.left = 0;
-        rect.top = 0;
-        rect.right = width-1;
-        rect.bottom = height-1;
-        AdjustWindowRect(&rect, stylebits, FALSE);
+        RECT rect = { 0, 0, width, height };
 
-        w = (rect.right - rect.left);
-        h = (rect.bottom - rect.top);
-        x = (desktopxdim - w) / 2;
-        y = (desktopydim - h) / 2;
+        AdjustWindowRectForDpi(&rect, stylebits, FALSE, 0, hWindow);
+
+        w = rect.right - rect.left;
+        h = rect.bottom - rect.top;
+
+        HMONITOR hMon = MonitorFromWindow(hWindow, MONITOR_DEFAULTTONEAREST);
+        MONITORINFO mi;
+        mi.cbSize = sizeof(mi);
+        GetMonitorInfo(hMon, &mi);
+
+        x = mi.rcWork.left + ((mi.rcWork.right - mi.rcWork.left) - w) / 2;
+        y = mi.rcWork.top + ((mi.rcWork.bottom - mi.rcWork.top) - h) / 2;
     }
     else
     {
-        x=y=0;
-        w=width;
-        h=height;
+        HMONITOR hMon = MonitorFromWindow(hWindow, MONITOR_DEFAULTTONEAREST);
+        MONITORINFO mi;
+        mi.cbSize = sizeof(mi);
+        GetMonitorInfo(hMon, &mi);
+
+        x = mi.rcMonitor.left;
+        y = mi.rcMonitor.top;
+        w = mi.rcMonitor.right - mi.rcMonitor.left;
+        h = mi.rcMonitor.bottom - mi.rcMonitor.top;
     }
 
     if (windowx == -1)

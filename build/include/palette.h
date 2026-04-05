@@ -7,8 +7,8 @@
 extern "C" {
 #endif
 
-#define MAXBASEPALS 256
-#define MAXPALOOKUPS 256
+#define MAXBASEPALS 64
+#define MAXPALOOKUPS 64
 #define MAXBLENDTABS 256
 
 #define RESERVEDPALS 4 // don't forget to increment this when adding reserved pals

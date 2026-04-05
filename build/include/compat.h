@@ -246,6 +246,8 @@
 # define HAVE_CLIPSHAPE_FEATURE
 #endif
 
+#define PR_CALLBACK
+
 // redefined for apple/ppc, which chokes on stderr when linking...
 #define ERRprintf(fmt, ...) fprintf(stderr, fmt, ## __VA_ARGS__)
 

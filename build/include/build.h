@@ -837,11 +837,7 @@ EXTERN int32_t editorzrange[2];
 
 FORCE_INLINE int32_t getrendermode(void)
 {
-#ifndef USE_OPENGL
-    return REND_CLASSIC;
-#else
-    return rendmode;
-#endif
+    return REND_POLYMER;
 }
 
 /*************************************************************************
@@ -1358,7 +1354,7 @@ FORCE_INLINE void push_nofog(void)
 #ifdef USE_OPENGL
     if (getrendermode() >= REND_POLYMOST)
     {
-        bglDisable(GL_FOG);
+        glDisable(GL_FOG);
     }
 #endif
 }
@@ -1367,7 +1363,7 @@ FORCE_INLINE void pop_nofog(void)
 {
 #ifdef USE_OPENGL
     if (getrendermode() >= REND_POLYMOST && !nofog)
-        bglEnable(GL_FOG);
+        glEnable(GL_FOG);
 #endif
 }
 

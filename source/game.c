@@ -662,7 +662,7 @@ static void G_ReadGLFrame(void)
     }
 
     begindrawing();
-    bglReadPixels(0, 0, xdim, ydim, GL_RGBA, GL_UNSIGNED_BYTE, frame);
+    glReadPixels(0, 0, xdim, ydim, GL_RGBA, GL_UNSIGNED_BYTE, frame);
     enddrawing();
 
     for (y = 0; y < 200; y++)

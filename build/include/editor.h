@@ -8,6 +8,8 @@
 #include "baselayer.h"
 #include <math.h>
 
+#undef small
+
 #ifdef __cplusplus
 extern "C" {
 #endif

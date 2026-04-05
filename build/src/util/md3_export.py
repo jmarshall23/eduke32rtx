@@ -31,7 +31,7 @@ import sys, os, os.path, struct, string, math
 import Blender
 from Blender import *
 from Blender.Draw import *
-from Blender.BGL import *
+from Blender.gl import *
 from Blender.Window import *
 
 import types
@@ -934,7 +934,7 @@ a text window and you will be able to select the file md3_export_log."""
 		y = 35
 
 		for line in self.msg:
-			BGL.glRasterPos2i(10,y)
+			gl.glRasterPos2i(10,y)
 			Blender.Draw.Text(line)
 			y+=15
 

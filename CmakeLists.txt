@@ -2,6 +2,12 @@ cmake_minimum_required(VERSION 3.20)
 
 project(EDuke32MSVC LANGUAGES C CXX RC)
 
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_SOURCE_DIR}")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_SOURCE_DIR}")
+
 # ------------------------------------------------------------------------------
 # Options
 # ------------------------------------------------------------------------------
@@ -51,6 +57,9 @@ set(AUDIOLIB_SRC ${AUDIOLIB_ROOT}/src)
 set(ENET_ROOT ${DUKE3D_SRC}/enet)
 set(ENET_INC ${ENET_ROOT}/include)
 set(ENET_SRC ${ENET_ROOT}/src)
+
+set(BRIDGE_ROOT bridge)
+set(BRIDGE_TESS_ROOT ${BRIDGE_ROOT}/tess)
 
 set(PLATFORM_DIR platform/Windows)
 set(AUDIOINC ${DUKE3D_SRC}/jaudiolib/third-party/common)
@@ -135,10 +144,12 @@ include_directories(
     ${ENET_INC}
     ${PLATFORM_DIR}/include
     ${AUDIOINC}/include
+    ${BRIDGE_ROOT}
+    ${BRIDGE_TESS_ROOT}
 )
 
 # ------------------------------------------------------------------------------
-# Helper
+# Helpers
 # ------------------------------------------------------------------------------
 
 function(filter_existing out_var)
@@ -207,6 +218,30 @@ filter_existing(ENGINE_SRCS
     build/src/mhk.c
 )
 
+filter_existing(BRIDGE_SRCS
+    bridge/glu.cpp
+    bridge/gl_d3d12raylight.cpp
+    bridge/gl_d3d12shim.cpp
+    bridge/gl_d3d12wgl.cpp
+)
+
+filter_existing(BRIDGE_TESS_SRCS
+    bridge/tess/dict.c
+    bridge/tess/geom.c
+    bridge/tess/memalloc.c
+    bridge/tess/mesh.c
+    bridge/tess/normal.c
+    bridge/tess/priorityq.c
+    bridge/tess/priorityq-heap.c
+    bridge/tess/render.c
+    bridge/tess/sweep.c
+    bridge/tess/tess.c
+    bridge/tess/tessellate.c
+    bridge/tess/tessmono.c
+)
+
+list(APPEND ENGINE_SRCS ${BRIDGE_SRCS} ${BRIDGE_TESS_SRCS})
+
 filter_existing(ENGINE_EDITOR_SRCS
     build/src/build.c
     build/src/startwin.editor.c
@@ -240,7 +275,7 @@ filter_existing(AUDIOLIB_SRCS
 )
 
 filter_existing(MACT_SRCS
-source/jmact/animlib.c
+    source/jmact/animlib.c
     source/jmact/file_lib.c
     source/jmact/control.c
     source/jmact/keyboard.c
@@ -366,29 +401,36 @@ filter_existing(EDITOR_RESOURCES
     rsrc/buildres.rc
 )
 
-# Ensure RC gets the same include paths the original NMake used:
-# /i$(ENGINE_INC)\ /i$(DUKE3D_SRC)\ /i$(DUKE3D_RSRC)\ /DPOLYMER
 set(RC_INCLUDE_FLAGS
     /I"${CMAKE_CURRENT_SOURCE_DIR}/${ENGINE_INC}"
     /I"${CMAKE_CURRENT_SOURCE_DIR}/${DUKE3D_SRC}"
     /I"${CMAKE_CURRENT_SOURCE_DIR}/${DUKE3D_RSRC}"
 )
 
-set_source_files_properties(${GAME_RESOURCES} PROPERTIES
-    COMPILE_OPTIONS "${RC_INCLUDE_FLAGS}"
-)
+if(GAME_RESOURCES)
+    set_source_files_properties(${GAME_RESOURCES} PROPERTIES
+        COMPILE_OPTIONS "${RC_INCLUDE_FLAGS}"
+    )
+endif()
 
-set_source_files_properties(${EDITOR_RESOURCES} PROPERTIES
-    COMPILE_OPTIONS "${RC_INCLUDE_FLAGS}"
-)
+if(EDITOR_RESOURCES)
+    set_source_files_properties(${EDITOR_RESOURCES} PROPERTIES
+        COMPILE_OPTIONS "${RC_INCLUDE_FLAGS}"
+    )
+endif()
 
 if(POLYMER)
-    set_source_files_properties(${GAME_RESOURCES} PROPERTIES
-        COMPILE_DEFINITIONS "POLYMER"
-    )
-    set_source_files_properties(${EDITOR_RESOURCES} PROPERTIES
-        COMPILE_DEFINITIONS "POLYMER"
-    )
+    if(GAME_RESOURCES)
+        set_source_files_properties(${GAME_RESOURCES} PROPERTIES
+            COMPILE_DEFINITIONS "POLYMER"
+        )
+    endif()
+
+    if(EDITOR_RESOURCES)
+        set_source_files_properties(${EDITOR_RESOURCES} PROPERTIES
+            COMPILE_DEFINITIONS "POLYMER"
+        )
+    endif()
 endif()
 
 # ------------------------------------------------------------------------------
@@ -416,7 +458,6 @@ endif()
 # ------------------------------------------------------------------------------
 
 add_library(engine STATIC ${ENGINE_SRCS})
-
 add_library(engine_editor STATIC ${ENGINE_EDITOR_SRCS})
 
 add_library(enet STATIC ${ENET_SRCS})
@@ -446,10 +487,6 @@ add_executable(mapster32 WIN32
 )
 
 # ------------------------------------------------------------------------------
-# Link directories
-# ------------------------------------------------------------------------------
-
-# ------------------------------------------------------------------------------
 # Library search paths
 # ------------------------------------------------------------------------------
 
@@ -467,7 +504,6 @@ target_link_directories(engine PRIVATE ${PROJECT_LIB_DIRS})
 target_link_directories(engine_editor PRIVATE ${PROJECT_LIB_DIRS})
 target_link_directories(enet PRIVATE ${PROJECT_LIB_DIRS})
 target_link_directories(audiolib PRIVATE ${PROJECT_LIB_DIRS})
-
 target_link_directories(eduke32 PRIVATE ${PROJECT_LIB_DIRS})
 target_link_directories(mapster32 PRIVATE ${PROJECT_LIB_DIRS})
 
@@ -489,6 +525,8 @@ set(COMMON_WIN_LIBS
     version
     dxguid
     dsound
+    d3d12
+    dxgi
     advapi32
 )
 
@@ -505,8 +543,8 @@ set(THIRDPARTY_LIBS
 
 if(RENDERTYPE STREQUAL "SDL")
     list(APPEND THIRDPARTY_LIBS
-        libSDL2main.a
-        libSDL2.a
+        "${CMAKE_CURRENT_SOURCE_DIR}/${PLATFORM_DIR}/lib${WINBITS}/libSDL2main.a"
+        "${CMAKE_CURRENT_SOURCE_DIR}/${PLATFORM_DIR}/lib${WINBITS}/libSDL2.a"
     )
 endif()
 
@@ -551,11 +589,3 @@ if(MSVC)
         target_link_libraries(mapster32 PRIVATE msvcrt)
     endif()
 endif()
-
-set_target_properties(eduke32 PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}"
-)
-
-set_target_properties(mapster32 PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}"
-)
